@@ -6,10 +6,10 @@ Zoopla.$inject = ['$http', 'API_URL'];
 function Zoopla($http, API_URL) {
   const vm = this;
 
-  function getHouses() {
+  function getHouses(location) {
+    console.log(location);
     return $http
-      .get(`${API_URL}/api/search_properties`)
-      // .get(`${API_URL}/api/search_properties`, { params: { postcode } })
+      .get(`${API_URL}/api/search_properties`, { params: { location } })
       .then((response) => {
         console.log(response);
         return response;
