@@ -1,0 +1,14 @@
+
+<form class="postcode-search" action="index.html" method="post">
+  <label> Postcode</label>
+  <input type="text" ng-model="housesIndex.postcode">
+  {{ housesIndex.postcode + housesIndex.value }}
+  <button type="button" name="button"> SEARCH</button>
+</form>
+
+<button ng-click="housesIndex.getHouses()"> CLICK TO GET HOUSES</button>
+<!-- <bubbles houses="housesIndex">
+
+GOES IN HERE
+
+</bubbles> -->
