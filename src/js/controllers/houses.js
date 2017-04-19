@@ -17,7 +17,7 @@ vm.nodes = [];
         vm.nodes = vm.allProperties.data.listing;
         // console.log('Result Count: ', vm.allProperties.data.result_count);
         // console.log('Area Name: ', vm.allProperties.data.area_name);
-        console.log('nodes', vm.nodes);
+        // console.log('nodes', vm.nodes);
       });
   }
 
