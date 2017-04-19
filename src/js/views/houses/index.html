@@ -1,13 +1,15 @@
 
 <form class="postcode-search" ng-submit="housesIndex.getHouses(housesIndex.location)">
-  <label> Postcode</label>
   <input type="text" ng-model="housesIndex.location">
   {{ housesIndex.postcode + housesIndex.value }}
   <button> Search </button>
 </form>
 
-<!-- <bubbles houses="housesIndex">
+<div id="toolbar" class="toolbar">
+  <a href="#" id="all" class="button active">All</a>
+  <a href="#" id="bedrooms" class="button"> Bedrooms</a>
+  <a href="#" id="bathrooms" class="button"> Bathrooms</a>
+  <a href="#" id="percent" class="button"> Percent Change</a>
+</div>
 
-GOES IN HERE
-
-</bubbles> -->
+<bubbles class="bubbleChart" nodes="housesIndex.nodes" add-property="housesIndex.addProperty(item)"></bubbles>
