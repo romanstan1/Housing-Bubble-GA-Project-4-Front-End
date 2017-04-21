@@ -1,15 +1,23 @@
 
 <form class="postcode-search" ng-submit="housesIndex.getHouses(housesIndex.location)">
   <input type="text" ng-model="housesIndex.location">
-  {{ housesIndex.postcode + housesIndex.value }}
-  <button> Search </button>
+  <button> </button>
 </form>
 
 <div id="toolbar" class="toolbar">
   <a href="#" id="all" class="button active">All</a>
   <a href="#" id="bedrooms" class="button"> Bedrooms</a>
   <a href="#" id="bathrooms" class="button"> Bathrooms</a>
-  <a href="#" id="percent" class="button"> Percent Change</a>
+  <a href="#" id="percent" class="button"> %Change</a>
+  <!-- <a href="#" class="button" ng-click="housesIndex.findUserProperties()"> findUserPros</a> -->
 </div>
 
-<bubbles class="bubbleChart" nodes="housesIndex.nodes" add-property="housesIndex.addProperty(item)"></bubbles>
+<div class="fixed">
+  <a href="#" class="button" ng-click="housesIndex.click()"> ClickDis</a>
+</div>
+
+<!-- <div class="fixed">
+  {{ housesIndex.userdata }}clickdis="housesIndex.clickdis"
+</div> -->
+
+<bubbles class="bubbleChart" nodes="housesIndex.nodes" clickdis="housesIndex.clickdis" userdata="main.userdata" add-property="housesIndex.addProperty(item)"></bubbles>

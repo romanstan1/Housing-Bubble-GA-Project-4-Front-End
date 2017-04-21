@@ -2,68 +2,215 @@
 * {
   margin: 0;
   padding: 0;
+  border: 0;
   box-sizing: border-box;
 }
 
+html {
+  background: ghostwhite;
+  font-size: 0;
+}
 body {
   font-family: sans-serif;
+  background: white;
 }
 
+main {
+  height: 100vh;
+  // background: green;
+}
+
+button {
+  outline: none;
+}
 h2 {
   margin: 100px 0;
   text-align: center;
 }
 
-form.postcode-search {
-  text-align: center;
-  margin: 0 auto;
-  display: block;
-  width: 50%;
-  // background: ghostwhite;
-  input {
-    display: block;
+header {
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  background: ghostwhite;
+  nav {
+    text-align: right;
+    ul {
+      width: 95%;
+      margin: 0 auto;
+      li {
+        font-size: 0;
+        display: inline-block;
+        height: 50px;
+        a {
+          display: block;
+          line-height: 50px;
+          // background: red;
+          font-size: 13px;
+          text-decoration: none;
+          color: black;
+          text-transform: uppercase;
+          padding:0 15px;
+          margin: 0 5px;
+          &:hover {
+            background:blue;
+          }
+        }
+      }
+    }
+  }
+}
+
+form.auth {
+  background: gold;
+  div {
+    background: grey;
     text-align: center;
-    margin: 0 auto;
-    width: 100%;
-    line-height: 20px;
+    label {
+      font-size: 12px;
+    }
+    input {
+      margin-top: 50px;
+      font-size: 12px;
+      border: 3px solid grey;
+      outline: none;
+    }
   }
   button {
     cursor: pointer;
-    border: none;
-    margin-top: 10px;
-    background: grey;
-    color: white;
-    line-height: 25px;
     display: block;
-    width: 100%;
+    margin: 0 auto;
+    font-size: 12px;
+    padding: 5px 30px;
+    &:hover{
+      background: tomato;
+    }
+  }
+}
+
+form.postcode-search {
+  position: fixed;
+  z-index: 2;
+  line-height: 30px;
+  height: 30px;
+  width: 150px;
+  display: block;
+  background: red;
+  font-size: 0;
+  margin-left: 100px;
+  margin-top: 10px;
+  input {
+    position: absolute;
+    background: white;
+    display: inline-block;
+    line-height: 30px;
+    text-indent: 10px;
+    outline: none;
+    width: 80%;
+  }
+  button {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    font-size: 0;
+    background: grey;
+    display: inline-block;
+    width: 20%;
+    height: 30px;
+    &:hover {
+      background: dodgerblue;
+    }
   }
 }
 
 .bubbleChart {
   margin: 0 auto;
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  right: 0;
+  left: 0px;
   text-align: center;
   display: block;
+  overflow: hidden;
 }
 
 svg {
-  border: 3px solid red;
+  background: ghostwhite;
   display: block;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
+  border-top: 10px solid white;
+
 }
 
 div.toolbar {
+  position: fixed;
   display: block;
-  margin: 50px 0;
-  text-align: center;
+  text-align: left;
+  width: 8px;
+  height: 20px;
+  padding-top: 25vh;
+  z-index: 20;
   a {
+    overflow: hidden;
+    background: tomato;
+    margin-bottom: 6px;
     text-transform: uppercase;
-    font-size: 13px;
-    display: inline-block;
+    font-size: 11px;
+    display: block;
     text-decoration: none;
     color: black;
     padding: 10px;
+    width: 8px;
+    line-height: 15px;
+    font-size: 0px;
     &:hover {
-      color: dodgerblue;
+      color: white;
+      background: grey;
+      width: 100px;
+      font-size: 11px;
     }
   }
+}
+
+div.fixed {
+  position: fixed;
+  display: block;
+  text-align: left;
+  width: 8px;
+  height: 20px;
+  padding-top: 75vh;
+  z-index: 20;
+  a {
+    overflow: hidden;
+    background: blue;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    font-size: 11px;
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    width: 8px;
+    line-height: 15px;
+    font-size: 0px;
+    &:hover {
+      color: white;
+      background: grey;
+      width: 100px;
+      font-size: 11px;
+    }
+  }
+}
+
+
+button.houseys {
+  // margin-top: 200px;
+  background: red;
+  display: block;
+  width: 200px;
+  height: 30px;
+  z-index: 10;
 }

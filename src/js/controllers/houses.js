@@ -2,494 +2,81 @@ angular
   .module('houseBubble')
   .controller('HousesIndexCtrl', HousesIndexCtrl);
 
-HousesIndexCtrl.$inject = ['zoopla'];
-function HousesIndexCtrl(zoopla) {
+HousesIndexCtrl.$inject = ['zoopla', 'House'];
+function HousesIndexCtrl(zoopla, House) {
 
 const vm = this;
-let nodes = [];
 vm.nodes = [];
+vm.house = {};
 
-  function getHouses(location) {
-    vm.nodes = [];
-    zoopla.getHouses(location)
-      .then((res) => {
-        vm.allProperties = res;
-        vm.nodes = vm.allProperties.data.listing;
-        // console.log('Result Count: ', vm.allProperties.data.result_count);
-        // console.log('Area Name: ', vm.allProperties.data.area_name);
-        // console.log('nodes', vm.nodes);
-      });
+vm.clickdis = false;
+
+function click() {
+  if (vm.clickdis) {
+    vm.clickdis = false;
+  } else {
+    vm.clickdis = true;
   }
+  console.log(vm.clickdis);
+}
+vm.click = click;
 
-  vm.getHouses = getHouses;
 
-  function addProperty(item) {
-    console.log(item);
-  }
+function getHouses(location) {
+  // vm.nodes = [];
+  zoopla.getHouses(location)
+    .then((res) => {
+      // vm.allProperties = res;
+      vm.nodes = res.data.listing;
+    });
+}
 
-  vm.addProperty = addProperty;
+vm.getHouses = getHouses;
 
-vm.nodesOther = [
-  {
-    price: 70000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 17000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 227000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 227000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 227000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 227000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 227000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 227000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 227000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 2227000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 70000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 70000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 270000,
-    property_type: "Detatched House",
-    num_bedrooms: 2,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 270000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 370000,
-    property_type: "Detatched House",
-    num_bedrooms: 2,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 70000,
-    property_type: "Detatched House",
-    num_bedrooms: 2,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 170000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 1470000,
-    property_type: "Detatched House",
-    num_bedrooms: 7,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 870000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 260000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 230000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 270000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 170000,
-    property_type: "Detatched House",
-    num_bedrooms: 5,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 570000,
-    property_type: "Detatched House",
-    num_bedrooms: 3,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 270000,
-    property_type: "Detatched House",
-    num_bedrooms: 3,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 170000,
-    property_type: "Detatched House",
-    num_bedrooms: 5,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 570000,
-    property_type: "Detatched House",
-    num_bedrooms: 6,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 870000,
-    property_type: "Detatched House",
-    num_bedrooms: 9,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 770000,
-    property_type: "Detatched House",
-    num_bedrooms: 7,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 170000,
-    property_type: "Detatched House",
-    num_bedrooms: 6,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 470000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  },
-  {
-    price: 270000,
-    property_type: "Detatched House",
-    num_bedrooms: 4,
-    num_bathrooms: 4,
-    county: "Fife",
-    street_name: "Whatever",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo.",
-    price_change: 2
-  }
+function addProperty(item) {
+  vm.house.listing_id = item.Id;
+  House
+    .save({ house:vm.house })
+    .$promise
+    .then((house) => {
+      console.log('addedHouse',house);
+    });
+}
 
-];
+vm.addProperty = addProperty;
+
+  // function getPropertiesArray() {
+  //   House
+  //     .query()
+  //     .$promise
+  //     .then(function(data) {
+  //       console.log('Houses saved on database', data);
+  //       vm.all = data; })
+  //     .then(function(){
+  //       vm.all.forEach(function(e) {
+  //         vm.housesIds = vm.housesIds.concat(',', e.listing_id);
+  //       });
+  //       vm.housesIds = [vm.housesIds.substr(1)];
+  //
+  //       zoopla
+  //         .getUserHouses(vm.housesIds)
+  //         .then((res) => {
+  //           console.log('Up to date Zoopla listings', res);
+  //         });
+  //     });
+  // }
+  //
+  // vm.getPropertiesArray = getPropertiesArray;
+  //
+  // function findUserProperties() {
+    // zoopla.getUserHouses(['35940943,43307305,43252778,41760213'])
+  //   zoopla
+  //     .getUserHouses(vm.housesIds)
+  //     .then((res) => {
+  //       console.log('Up to date Zoopla listings', res);
+  //     });
+  // }
+  //
+  // vm.findUserProperties = findUserProperties;
+
 }

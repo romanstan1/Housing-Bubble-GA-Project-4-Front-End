@@ -9,26 +9,71 @@ function bubbles() {
     restrict: 'EA',
     scope: {
       nodes: '=',
+      userdata: '=',
+      clickdis: '=',
       addProperty: '&'
 
     },
     link: function(scope, element, attrs) {
 
       scope.$watch('nodes', () => {
-        if(scope.nodes.length > 0) generateD3();
+        if(scope.nodes.length > 0) generateSearchBubbles(scope.nodes);
+      }, true);
+
+      scope.$watch('clickdis', () => {
+        if(scope.clickdis) {
+          console.log("CLICKED DIS");
+          console.log(scope.userdata);
+          // svg.selectAll('circle')
+          //   .filter(function(d) {
+          //     return parseInt(d.Bedrooms) > 3; });
+              generateSearchBubbles(scope.userdata);
+        }
+      }, true);
+
+      scope.$watch('userdata', () => {
+        if(scope.userdata) {
+          console.log("NOW THEN!");
+          console.log(scope.userdata);
+          // svg.selectAll('circle')
+          //   .filter(function(d) {
+          //     console.log(d);
+          //     return parseInt(d.Bedrooms) > 3; });
+            // .remove();
+
+          // generateSearchBubbles(scope.userdata);
+
+        }
       }, true);
 
       const svg = d3.select(element[0]).append('svg');
 
-      ////-------- d3 code starts
-      function generateD3() {
+      const  w = window.innerWidth,
+             h = window.innerHeight - 50,
+             damper = 0.6;
+
+      let center = { x: w / 2, y: h / 2 };
+      let force = null;
+
+      svg
+        .attr('width', w)
+        .attr('height', h);
+
+
+
+
+
+
+
+
+
+
+
+
+
+      function generateSearchBubbles(values) {
 
         svg.selectAll('circle').remove();
-        const  w = 900,
-               h = 600,
-               damper = 0.6;
-
-        let center = { x: w / 2, y: h / 2 };
 
         function defineTarget(cen) {
           nodes.forEach(function (obj) {
@@ -42,16 +87,17 @@ function bubbles() {
         }, 0);
 
         const scaling = d3.scale.linear()
-          .domain([0, Math.pow((total / 3.14), 0.5) * 3.5])
+          .domain([0, Math.pow((total / 3.14), 0.5) * 6])
           .range([0, w]);
 
-        let nodes = scope.nodes.map(function (d) {
+        let nodes = values.map(function (d) {
           return {
               value: d.price,
               r: scaling(Math.pow((d.price / 3.14), 0.5)),
               PropertyType: d.property_type,
               Bedrooms: d.num_bedrooms,
               Bathrooms: d.num_bathrooms,
+              Id: d.listing_id,
               County: d.county,
               StreetName: d.street_name,
               Description: d.description,
@@ -59,13 +105,6 @@ function bubbles() {
               centerPoint: { x: w / 2, y: h / 2 }
           };
         });
-
-        svg
-          .attr('width', w)
-          .attr('height', h);
-
-
-        let force = null;
 
         force = d3.layout.force()
           .nodes(nodes)
@@ -84,7 +123,7 @@ function bubbles() {
           .append('circle')
           .attr('opacity', '0.7')
           .attr('fill', d => (fillColor(d.value)))
-          .attr('fill', 'Navy')
+          // .attr('fill', 'Navy')
           .attr('r', d => (d.r))
           .on('click', d => scope.addProperty({ item: d }));
 
@@ -114,12 +153,11 @@ function bubbles() {
             button.classed('active', true);
 
             var buttonId = button.attr('id');
-            console.log(buttonId);
 
             let target = null;
 
             if (buttonId === 'bedrooms') {
-              target = { x: w / 4, y: h / 4 };
+              target = { x: w / 3, y: h / 2 };
             } else if (buttonId === 'all') {
               target = { x: w / 2, y: h / 2 };
             } else if (buttonId === 'bathrooms') {
@@ -129,9 +167,6 @@ function bubbles() {
             }
 
             defineTarget(target);
-            console.log(nodes);
-
-            // moveBubbles(buttonId);
         });
       }
     }
