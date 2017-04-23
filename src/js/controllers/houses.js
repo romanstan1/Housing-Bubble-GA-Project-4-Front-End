@@ -12,7 +12,6 @@ vm.house = {};
 function getHouses(location) {
   zoopla.getHouses(location)
     .then((res) => {
-      console.log(res);
       vm.nodes = res.data.listing;
     });
 }
@@ -35,7 +34,7 @@ function removeProperty(item) {
           House.delete({ id: house.id });
         }
       });
-  })
+  });
 }
 
 vm.removeProperty = removeProperty;

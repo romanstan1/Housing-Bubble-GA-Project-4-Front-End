@@ -33,7 +33,7 @@ function MainCtrl($rootScope, $state, $auth, zoopla, User) {
         })
         .then((res) => {
           vm.userdata = res.data.listing;
-          console.log(vm.userdata);
+          console.log('res from zoopla', vm.userdata);
         });
     }
   });

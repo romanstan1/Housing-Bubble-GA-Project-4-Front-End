@@ -26,6 +26,7 @@ function bubbles() {
       let center = { x: w / 2, y: h / 2 };
       let force = null;
       let userNodes = null;
+      let nextIndex = null;
 
       const svg = d3.select(element[0]).append('svg');
 
@@ -62,7 +63,8 @@ function bubbles() {
                 Receptions: d.num_recepts,
                 Url: d.details_url,
                 NodeType: "search",
-                centerPoint: { x: w * 0.35, y: h / 2 }
+                centerPoint: { x: w * 0.35, y: h / 2 },
+                indexValue: 'index'
             };
           });
 
@@ -89,17 +91,16 @@ function bubbles() {
                 Url: d.details_url,
                 NodeType: "user",
                 centerPoint: { x: w * 0.75 , y: h * 0.5 },
-                index: 'index' + i
+                indexValue: 'index' + i
             };
           });
-
           // force = d3.layout.force()
           //   .nodes(userNodes)
           //   .size([w, h])
           //   .charge( d => (- d.r * d.r * 1.25))
           //   .gravity(0.01)
           //   .friction(0.55);
-          console.log('scope.userdata', scope.userdata);
+          nextIndex = userNodes.length - 1;
           generate(userNodes, 'user');
         }
       }, true);
@@ -114,10 +115,6 @@ function bubbles() {
 
 
       function generate(nodes, type) {
-
-        console.log('userNodes', userNodes);
-        console.log('nodes', nodes);
-
         // svg.selectAll('circle')
         //   .filter(function(d) {
         //     return d.NodeType === "search"; })
@@ -148,6 +145,45 @@ function bubbles() {
           // .friction(0);
 
 
+        let userNodesIndexes = userNodes.map((house, i) => {
+          return parseInt(house.indexValue.substring(5));
+          // return i;
+        });
+
+        console.log(userNodesIndexes);
+
+        function findNextIndex(d) {
+
+          let indexBoolean = false;
+
+          userNodesIndexes.forEach((index, i) => {
+            if(index != i) indexBoolean = true;
+          });
+
+          if(d.NodeType ==='search') {
+            if( indexBoolean) {
+              nextIndex ++;
+            } else {
+            nextIndex = userNodesIndexes.length;
+            }
+          } else {
+            const index = userNodesIndexes.indexOf(parseInt(d.indexValue.substring(5)));
+            userNodesIndexes.splice(index, 1);
+            for(let i = 0; i < userNodesIndexes.length; i++) {
+              if (userNodesIndexes[i] != i){
+                nextIndex = i - 1;
+                break;
+              }
+            }
+
+          }
+
+
+
+
+          console.log(nextIndex);
+
+        }
 
         var fillColor = d3.scale.linear()
           .domain([200000,2000000])
@@ -165,11 +201,14 @@ function bubbles() {
             if ( d.NodeType === "search") {
               scope.addProperty({ item: d });
               d.centerPoint = { x: w * 0.75, y: h * 0.5};
+              findNextIndex(d);
               d.NodeType = "user";
+              d.centerPoint = { x: w - 300 , y: 10 + (2 * (w * 0.012)) + (nextIndex*(boxHeight*1.22)) };
             } else {
               scope.removeProperty({ item: d });
               d.centerPoint.x = w + 300;
-              destroyBoxes(d.index);
+              destroyBoxes(d.indexValue);
+              findNextIndex(d);
             }
             moveBubbles();
             // createBoxes();
@@ -192,17 +231,14 @@ function bubbles() {
         //   .append("svg")
         //   .attr("width", 200)
         //   .attr("height", 200);
+        const boxHeight = (h * 0.08);
 
-
-        function destroyBoxes(index) {
-          svg.select('#index' + index).remove();
+        function destroyBoxes(indexValue) {
+          svg.select('#' + indexValue).remove();
         }
 
         function createBoxes() {
           userNodes.forEach((house, i) => {
-            // console.log(house, i);
-
-            const boxHeight = (h * 0.08);
 
             const g = svg.append('svg')
             .attr("x", w - 260)
@@ -246,7 +282,7 @@ function bubbles() {
 
         if(nodes[0].NodeType === "search" && userNodes ) {
           userNodes.forEach((house, i) => {
-            console.log(house.centerPoint);
+            // console.log(house.centerPoint);
             // house.centerPoint.x = house.centerPoint.x - (15 + (8 * indexWeights[i]));
             // house.centerPoint.y = house.centerPoint.y - ((house.centerPoint.y - (h * 0.5)) * 0.05);
             // { x: w * 0.4, y: h / 2 }
