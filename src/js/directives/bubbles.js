@@ -58,17 +58,13 @@ function bubbles() {
                 StreetName: d.street_name,
                 Description: d.description,
                 PriceChange: d.price_change,
+                Address: d.displayable_address,
+                Receptions: d.num_recepts,
+                Url: d.details_url,
                 NodeType: "search",
-                centerPoint: { x: w * 0.4, y: h / 2 }
+                centerPoint: { x: w * 0.35, y: h / 2 }
             };
           });
-
-          // force = d3.layout.force()
-          //   .nodes(nodes)
-          //   .size([w, h])
-          //   .charge( d => (- d.r * d.r * 1.25))
-          //   .gravity(0.01)
-          //   .friction(0.55);
 
           generate(nodes, 'search');
         }
@@ -76,7 +72,7 @@ function bubbles() {
 
       scope.$watch('userdata', () => {
         if(scope.userdata) {
-          userNodes = scope.userdata.map(function (d) {
+          userNodes = scope.userdata.map(function (d, i) {
             return {
                 value: d.price,
                 r: w * 0.012,
@@ -88,8 +84,12 @@ function bubbles() {
                 StreetName: d.street_name,
                 Description: d.description,
                 PriceChange: d.price_change,
+                Address: d.displayable_address,
+                Receptions: d.num_recepts,
+                Url: d.details_url,
                 NodeType: "user",
-                centerPoint: { x: w * 0.75 , y: h * 0.5 }
+                centerPoint: { x: w * 0.75 , y: h * 0.5 },
+                index: 'index' + i
             };
           });
 
@@ -127,14 +127,27 @@ function bubbles() {
 
         if(nodes[0].NodeType === "search" && userNodes ) {
           nodes = nodes.concat(userNodes);
+          // chargeCorrection();
         }
 
         force = d3.layout.force()
           .nodes(nodes)
           .size([w, h])
-          .charge( d => (- d.r * d.r * 1.25))
-          .gravity(0.01)
-          .friction(0.55);
+          .charge( (d) => {
+            // console.log(d);
+            if (d.NodeType === 'search') {
+              return (- d.r * d.r * 1.45);
+              // return 0;
+            } else {
+              return 0;
+            }
+          })
+          // .charge( d => (- d.r * d.r * 0))
+          .gravity(0)
+          .friction(0.45);
+          // .friction(0);
+
+
 
         var fillColor = d3.scale.linear()
           .domain([200000,2000000])
@@ -155,9 +168,11 @@ function bubbles() {
               d.NodeType = "user";
             } else {
               scope.removeProperty({ item: d });
-              d.centerPoint = { x: w * 0.75, y: h + 100 };
+              d.centerPoint.x = w + 300;
+              destroyBoxes(d.index);
             }
             moveBubbles();
+            // createBoxes();
           });
 
         // svg.selectAll('circle')
@@ -178,37 +193,72 @@ function bubbles() {
         //   .attr("width", 200)
         //   .attr("height", 200);
 
-        userNodes.forEach((house) => {
-          console.log(house);
 
-          const g = svg.append('g')
-            .attr("width", 150)
-            .attr("height", 40);
+        function destroyBoxes(index) {
+          svg.select('#index' + index).remove();
+        }
 
-          const rect = g.append('rect')
-            .attr("width", 50)
-            .attr("height", 10)
-            .attr('fill', 'blue');
+        function createBoxes() {
+          userNodes.forEach((house, i) => {
+            // console.log(house, i);
 
-          const text = g.append('text')
-            .text('hello');
+            const boxHeight = (h * 0.08);
 
+            const g = svg.append('svg')
+            .attr("x", w - 260)
+            .attr("y", 10 + (i* (boxHeight * 1.22)))
+            .attr("width", 250)
+            .attr("height", boxHeight )
+            .attr("id", 'index' + i);
 
-          // .attr('fill', 'red')
-          // .attr('class', 'tooltip')
-          // .insert('div')
-          // .text('hello');
+            const rect = g.append('rect')
+            .attr("width", 250)
+            .attr("height", boxHeight )
+            .attr('fill', 'grey')
+            .attr('opacity', '0.1');
 
-          // const rect = svg.append('rect')
-          // .attr('fill', 'red')
-          // .attr("width", 150)
-          // .attr("height", 40)
-          // .attr('class', 'tooltip')
-          // .insert('div')
-          // .text('hello');
-          // .append('rect:div');
+            g.append('text')
+            .text(house.Address)
+            .attr("x", 10)
+            .attr("y", 20)
+            .attr("font-size", w * 0.01);
 
-        });
+            g.append('text')
+            .text('£' + parseInt(house.value).toLocaleString())
+            .attr("x", 140)
+            .attr("y", 40)
+            .attr("fill", 'dodgerblue')
+            .attr("font-size", w * 0.01);
+
+            g.append('text')
+            .text('BEDS: ' + house.Bedrooms +' BATHS: ' + house.Bathrooms)
+            .attr("x", 10)
+            .attr("y", 40)
+            .attr("font-size", w * 0.01);
+
+            house.centerPoint = { x: w - 300 , y: 10 + (2 * (w * 0.012)) + (i*(boxHeight*1.22)) };
+          });
+        }
+
+        if(nodes[0].NodeType === "user" && userNodes ) createBoxes();
+
+        const indexWeights = [ 1, 2, 3, 4, 5, 5, 4, 3, 2, 1 ];
+
+        if(nodes[0].NodeType === "search" && userNodes ) {
+          userNodes.forEach((house, i) => {
+            console.log(house.centerPoint);
+            // house.centerPoint.x = house.centerPoint.x - (15 + (8 * indexWeights[i]));
+            // house.centerPoint.y = house.centerPoint.y - ((house.centerPoint.y - (h * 0.5)) * 0.05);
+            // { x: w * 0.4, y: h / 2 }
+          });
+        }
+        // function chargeCorrection() {
+        //   userNodes.forEach((house, i) => {
+        //     console.log(house.centerPoint);
+        //     house.centerPoint.x = house.centerPoint.x - (80 + (8 * indexWeights[i]));
+        //   });
+        // }
+        // chargeCorrection();
 
         // d3.selectAll('rect')
         //   .insert('div', '#circle + *')
@@ -297,6 +347,7 @@ function bubbles() {
             var buttonId = button.attr('id');
             if (buttonId === 'All') {
               const target = { x: w / 2, y: h / 2 };
+              // const target = { x: w * 0.4, y: h / 2 };
               defineTarget(target);
             } else {
               defineMultipleTargets(buttonId);

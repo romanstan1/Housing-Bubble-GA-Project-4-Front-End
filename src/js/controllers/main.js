@@ -23,18 +23,18 @@ function MainCtrl($rootScope, $state, $auth, zoopla, User) {
     vm.navIsOpen = false;
 
     if($auth.getPayload()) {
-      console.log('works');
-      // User.get({ id: $auth.getPayload().id })
-      //   .$promise
-      //   .then((user) => {
-      //     vm.currentUser = user;
-      //     vm.houseIds = vm.currentUser.houses.map(house => house.listing_id);
-      //     return zoopla
-      //       .getUserHouses(vm.houseIds);
-      //   })
-      //   .then((res) => {
-      //     vm.userdata = res.data.listing;
-      //   });
+      User.get({ id: $auth.getPayload().id })
+        .$promise
+        .then((user) => {
+          vm.currentUser = user;
+          vm.houseIds = vm.currentUser.houses.map(house => house.listing_id);
+          return zoopla
+            .getUserHouses(vm.houseIds);
+        })
+        .then((res) => {
+          vm.userdata = res.data.listing;
+          console.log(vm.userdata);
+        });
     }
   });
 
