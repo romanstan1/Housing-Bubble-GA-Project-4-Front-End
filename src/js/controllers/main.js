@@ -15,7 +15,7 @@ function MainCtrl($rootScope, $state, $auth, zoopla, User) {
     $state.go('login');
   });
 
-  $rootScope.userdata = [];
+  vm.houseIds = [];
 
   $rootScope.$on('$stateChangeSuccess', () => {
     if(vm.stateHasChanged) vm.message = null;
@@ -23,22 +23,18 @@ function MainCtrl($rootScope, $state, $auth, zoopla, User) {
     vm.navIsOpen = false;
 
     if($auth.getPayload()) {
-      // if(!vm.currentUser) {
-        User.get({ id: $auth.getPayload().id })
-          .$promise
-          .then((user) => {
-            vm.currentUser = user;
-            // console.log('current user', vm.currentUser);
-            const houseIds = vm.currentUser.houses.map(house => house.listing_id);
-            // console.log('house iDs', houseIds);
-            return zoopla
-              .getUserHouses(houseIds);
-          })
-          .then((res) => {
-            vm.userdata = res.data.listing;
-            // console.log('Up to date Zoopla listings', vm.userdata);
-          });
-      // }
+      console.log('works');
+      // User.get({ id: $auth.getPayload().id })
+      //   .$promise
+      //   .then((user) => {
+      //     vm.currentUser = user;
+      //     vm.houseIds = vm.currentUser.houses.map(house => house.listing_id);
+      //     return zoopla
+      //       .getUserHouses(vm.houseIds);
+      //   })
+      //   .then((res) => {
+      //     vm.userdata = res.data.listing;
+      //   });
     }
   });
 

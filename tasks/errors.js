@@ -4,10 +4,10 @@ const plumber          = require('gulp-plumber');
 
 const onError = function(err) {
   notify.onError({
-    title: 'Something went wrong!',
+    title: 'Something went wrong!', 
     subtitle: 'Plugin: <%= error.plugin %>',
-    message: 'Error: <%= error.message %>',
-    sound: 'Beep'
+    message: 'Error: <%= error.message %>'
+    // sound: 'Beep'
   })(err);
   this.emit('end');
 };

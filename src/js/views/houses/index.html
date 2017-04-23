@@ -5,19 +5,19 @@
 </form>
 
 <div id="toolbar" class="toolbar">
-  <a href="#" id="all" class="button active">All</a>
-  <a href="#" id="bedrooms" class="button"> Bedrooms</a>
-  <a href="#" id="bathrooms" class="button"> Bathrooms</a>
-  <a href="#" id="percent" class="button"> %Change</a>
+  <a href="#" id="All" class="button active">All</a>
+  <a href="#" id="Bedrooms" class="button"> Bedrooms</a>
+  <a href="#" id="Bathrooms" class="button"> Bathrooms</a>
+  <a href="#" id="PriceChange" class="button"> %Change</a>
   <!-- <a href="#" class="button" ng-click="housesIndex.findUserProperties()"> findUserPros</a> -->
 </div>
 
-<div class="fixed">
+<!-- <div class="fixed">
   <a href="#" class="button" ng-click="housesIndex.click()"> ClickDis</a>
-</div>
+</div> -->
 
 <!-- <div class="fixed">
   {{ housesIndex.userdata }}clickdis="housesIndex.clickdis"
 </div> -->
 
-<bubbles class="bubbleChart" nodes="housesIndex.nodes" clickdis="housesIndex.clickdis" userdata="main.userdata" add-property="housesIndex.addProperty(item)"></bubbles>
+<bubbles id="thisone" class="bubbleChart" nodes="housesIndex.nodes" userdata="main.userdata" add-property="housesIndex.addProperty(item)" remove-property="housesIndex.removeProperty(item)"></bubbles>
