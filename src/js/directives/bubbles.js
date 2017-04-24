@@ -16,13 +16,14 @@ function bubbles() {
     },
     link: function(scope, element, attrs) {
 
+
       const  w = window.innerWidth,
              h = window.innerHeight - 50,
              damper = 0.6;
 
       let target = { x: w * 0.5, y: h * 0.5 }; //center
       let force = null;
-      let userNodes = null;
+      let userNodes = [];
       let nextIndex = null;
 
       const svg = d3.select(element[0]).append('svg');
@@ -43,7 +44,7 @@ function bubbles() {
             .range([0, w]);
 
           const nodes = scope.nodes.map(function (d) {
-            if(scope.userdata.length > 0 ) target = { x: w * 0.35, y: h * 0.5 };
+            if(scope.userdata) target = { x: w * 0.35, y: h * 0.5 };
             else target = { x: w * 0.5, y: h * 0.5 };
             return {
                 value: d.price,
@@ -125,6 +126,11 @@ function bubbles() {
           // chargeCorrection();
         }
 
+        function checkTargets() {
+          if(userNodes.length === 1) target = { x: w * 0.35, y: h * 0.5 };
+          if (userNodes.length === 0) target = { x: w * 0.5, y: h * 0.5 };
+        }
+
         force = d3.layout.force()
           .nodes(nodes)
           .size([w, h])
@@ -194,6 +200,7 @@ function bubbles() {
               d.centerPoint.x = w + 300;
               updateDeleteIndex(d);
             }
+
             moveBubbles();
 
 

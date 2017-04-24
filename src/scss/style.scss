@@ -13,11 +13,11 @@ html {
 body {
   font-family: 'Raleway', sans-serif;
   background: white;
+
 }
 
 main {
   height: 100vh;
-  // background: green;
 }
 
 button {
@@ -73,7 +73,7 @@ header {
           padding:0 15px;
           // margin: 0 5px;
           &:hover {
-            color:blue;
+            color:#605f77;
           }
         }
         span {
@@ -87,14 +87,20 @@ header {
 }
 
 form.auth {
-  background: gold;
+  background: white;
+  // background: url('/images/icon.png') no-repeat;
+  // background-size: 80px 60px;
   div {
-    background: grey;
+    background: ghostwhite;
     text-align: center;
+  //   background: url(img_flwr.gif);
+  //  background-size: 80px 60px;
+  //  background-repeat: no-repeat;
     label {
       font-size: 12px;
     }
     input {
+      text-indent: 10px;
       margin-top: 50px;
       font-size: 12px;
       border: 3px solid grey;
@@ -145,12 +151,13 @@ form.postcode-search {
     right: 0;
     cursor: pointer;
     font-size: 0;
-    background: grey;
+    background: #e3e5e8;
     display: inline-block;
     width: 30px;
     height: 30px;
+
     &:hover {
-      background: dodgerblue;
+      background: #605f77;
     }
   }
 }
@@ -187,17 +194,18 @@ div.toolbar {
   z-index: 20;
   a {
     font-weight: 700;
-    opacity: 0.4;
-    border-radius: 0 25px 25px 0;
+    opacity: 0.8;
+    border-radius: 0 1px 1px 0;
+    // border-right: 4px solid #c9c9c9;
     overflow: hidden;
-    background: aqua;
-    margin-bottom: 6px;
+    background: #e0e0e0;
+    margin-bottom: 15px;
     text-transform: uppercase;
     font-size: 0px;
     display: block;
     text-decoration: none;
     color: black;
-    padding: 12px;
+    padding: 12px 11px;
     width: 8px;
     line-height: 25px;
     font-size: 0px;
@@ -233,6 +241,7 @@ footer {
   background: -webkit-linear-gradient(left, #30fffb , #000019);
   transition: ease 0.5s;
   opacity: 0.7;
+  z-index: 700;
   // div{
   //   position: absolute;
   //   width: 100%;
@@ -243,6 +252,6 @@ footer {
   //   opacity: 0.8;
   // }
   &:hover {
-      height: 60%;
+      height: 75%;
   }
 }
