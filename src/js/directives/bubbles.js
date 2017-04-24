@@ -75,7 +75,7 @@ function bubbles() {
       }, true);
 
       scope.$watch('userdata', () => {
-        if(scope.userdata > 0) {
+        if(scope.userdata) {
           console.log('hitttscopedata', scope.userdata);
           userNodes = scope.userdata.map(function (d, i) {
             return {
@@ -147,13 +147,10 @@ function bubbles() {
           let userNodesIndexes = userNodes.map((house, i) => {
             return parseInt(house.indexValue.substring(5));
           });
-          console.log(userNodesIndexes);
         }
 
 
         function findNextIndex(d) {
-          console.log("hit1?");
-
 
           if(d.NodeType ==="user") {
             console.log("hit2?");
@@ -165,18 +162,18 @@ function bubbles() {
           }
 
 
-            // const index = userNodesIndexes.indexOf(parseInt(d.indexValue.substring(5)));
-            // userNodesIndexes.splice(index, 1);
-            // for(let i = 0; i < userNodesIndexes.length; i++) {
-            //   if (userNodesIndexes[i] != i){
-            //     nextIndex = i - 1;
-            //     break;
-            //   }
-            // }
-
-          // console.log(nextIndex);
-
         }
+
+        // const index = userNodesIndexes.indexOf(parseInt(d.indexValue.substring(5)));
+        // userNodesIndexes.splice(index, 1);
+        // for(let i = 0; i < userNodesIndexes.length; i++) {
+        //   if (userNodesIndexes[i] != i){
+        //     nextIndex = i - 1;
+        //     break;
+        //   }
+        // }
+        //
+        // console.log(nextIndex);
 
         var fillColor = d3.scale.linear()
           .domain([200000,2000000])
@@ -200,6 +197,7 @@ function bubbles() {
             } else {
               scope.removeProperty({ item: d });
               d.centerPoint.x = w + 300;
+              console.log(d);
               // destroyBoxes(d.indexValue);
               findNextIndex(d);
             }
@@ -209,7 +207,7 @@ function bubbles() {
 
 
 
-  
+
         const boxHeight = (h * 0.08);
 
         function destroyBoxes(indexValue) {
@@ -222,7 +220,6 @@ function bubbles() {
 
         function createBoxes() {
           userNodes.forEach((house, i) => {
-            console.log(house, i);
 
             const g = svg.append('svg')
             .attr("x", w - 260)
@@ -325,8 +322,6 @@ function bubbles() {
               return ar.indexOf(item) === i;
             });
             unique.sort(function(a,b){return a - b;});
-
-            console.log(buttonId, unique, unique.length);
 
             if (unique.length <= 1) {
               nodes.forEach(function (n, i) {
