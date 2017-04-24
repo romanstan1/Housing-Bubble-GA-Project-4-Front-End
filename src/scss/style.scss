@@ -60,6 +60,10 @@ header {
           float:left;
           margin-left: 0px;
         }
+        span.title {
+          font-size: 15px;
+          font-weight: 700;
+        }
         a {
           display: block;
           font-size: 14px;
@@ -74,14 +78,8 @@ header {
         }
         span {
           display: block;
-          // line-height: 50px;
-          // // background: red;
           font-size: 14px;
-          // text-decoration: none;
-          // color: black;
-          // text-transform: uppercase;
           padding:0 15px;
-          // margin: 0 5px;
         }
       }
     }
@@ -222,5 +220,29 @@ svg.rectangle {
   cursor: pointer;
   &:hover {
     background: red;
+  }
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right:0;
+  height: 2%;
+  background: #1ff2ee;
+  background: -webkit-linear-gradient(left, #30fffb , #000019);
+  transition: ease 0.5s;
+  opacity: 0.7;
+  // div{
+  //   position: absolute;
+  //   width: 100%;
+  //   bottom: 0;
+  //   background: #1ff2ee;
+  //   background: -webkit-linear-gradient(left, #1ff2ee , #00003a);
+  //   height: 100%;
+  //   opacity: 0.8;
+  // }
+  &:hover {
+      height: 60%;
   }
 }

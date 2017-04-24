@@ -26,7 +26,7 @@ function MainCtrl($rootScope, $state, $auth, zoopla, User) {
       User.get({ id: $auth.getPayload().id })
         .$promise
         .then((user) => {
-          console.log(user);
+          // console.log(user);
           vm.currentUser = user;
           vm.houseIds = vm.currentUser.houses.map(house => house.listing_id);
           return zoopla
