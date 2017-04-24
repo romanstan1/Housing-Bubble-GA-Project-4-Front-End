@@ -47,8 +47,6 @@ function bubbles() {
             .domain([0, Math.pow((total / 3.14), 0.5) * 6])
             .range([0, w]);
 
-          console.log('hitttscopenodes', scope.nodes);
-
           const nodes = scope.nodes.map(function (d) {
             return {
                 value: d.price,
@@ -76,7 +74,6 @@ function bubbles() {
 
       scope.$watch('userdata', () => {
         if(scope.userdata) {
-          console.log('hitttscopedata', scope.userdata);
           userNodes = scope.userdata.map(function (d, i) {
             return {
                 value: d.price,
@@ -118,10 +115,6 @@ function bubbles() {
 
 
       function generate(nodes, type) {
-        // svg.selectAll('circle')
-        //   .filter(function(d) {
-        //     return d.NodeType === "search"; })
-        //   .remove();
 
         svg.selectAll('circle').remove();
 
@@ -143,6 +136,9 @@ function bubbles() {
           .gravity(0)
           .friction(0.45);
 
+
+
+
         if(userNodes>0){
           let userNodesIndexes = userNodes.map((house, i) => {
             return parseInt(house.indexValue.substring(5));
@@ -150,16 +146,39 @@ function bubbles() {
         }
 
 
+
+
+
+
         function findNextIndex(d) {
 
-          if(d.NodeType ==="user") {
-            console.log("hit2?");
-            userNodes.forEach((house, i) => {
-              house.indexValue = i;
-            });
-            destroyAllBoxes();
-            createBoxes();
-          }
+          destroyAllBoxes(d.indexValue);
+          userNodes.splice(parseInt(d.indexValue.substring(5)), 1);
+          userNodes.splice(d.index, 1);
+
+          userNodes.forEach((house, i) => {
+            house.indexValue = 'index' + i;
+          });
+          createBoxes();
+
+          //
+          // userNodesIndexes.indexOf(parseInt(d.indexValue.substring(5)));
+          // userNodesIndexes.splice(index, 1);
+          // for(let i = 0; i < userNodesIndexes.length; i++) {
+          //   if (userNodesIndexes[i] != i){
+          //     nextIndex = i - 1;
+          //     break;
+          //   }
+          // }
+          //
+          // if(d.NodeType ==="user") {
+          //   console.log("hit2?");
+          //   userNodes.forEach((house, i) => {
+          //     house.indexValue = i;
+          //   });
+          //   destroyAllBoxes();
+          //   createBoxes();
+          // }
 
 
         }
@@ -191,7 +210,7 @@ function bubbles() {
             if ( d.NodeType === "search") {
               scope.addProperty({ item: d });
               d.centerPoint = { x: w * 0.75, y: h * 0.5};
-              findNextIndex(d);
+              // findNextIndex(d);
               d.NodeType = "user";
               d.centerPoint = { x: w - 300 , y: 10 + (2 * (w * 0.012)) + (nextIndex*(boxHeight*1.22)) };
             } else {
