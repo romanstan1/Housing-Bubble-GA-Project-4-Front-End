@@ -10,8 +10,10 @@ vm.nodes = [];
 vm.house = {};
 
 function getHouses(location) {
+  console.log(location);
   zoopla.getHouses(location)
     .then((res) => {
+      console.log('searched props', res);
       vm.nodes = res.data.listing;
     });
 }

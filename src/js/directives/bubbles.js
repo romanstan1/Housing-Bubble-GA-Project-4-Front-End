@@ -47,6 +47,8 @@ function bubbles() {
             .domain([0, Math.pow((total / 3.14), 0.5) * 6])
             .range([0, w]);
 
+          console.log('hitttscopenodes', scope.nodes);
+
           const nodes = scope.nodes.map(function (d) {
             return {
                 value: d.price,
@@ -73,7 +75,8 @@ function bubbles() {
       }, true);
 
       scope.$watch('userdata', () => {
-        if(scope.userdata) {
+        if(scope.userdata > 0) {
+          console.log('hitttscopedata', scope.userdata);
           userNodes = scope.userdata.map(function (d, i) {
             return {
                 value: d.price,
@@ -144,44 +147,39 @@ function bubbles() {
           .friction(0.45);
           // .friction(0);
 
+        if(userNodes>0){
+          let userNodesIndexes = userNodes.map((house, i) => {
+            return parseInt(house.indexValue.substring(5));
+            // return i;
+          });
+          console.log(userNodesIndexes);
+        }
 
-        let userNodesIndexes = userNodes.map((house, i) => {
-          return parseInt(house.indexValue.substring(5));
-          // return i;
-        });
-
-        console.log(userNodesIndexes);
 
         function findNextIndex(d) {
+          console.log("hit1?");
 
-          let indexBoolean = false;
 
-          userNodesIndexes.forEach((index, i) => {
-            if(index != i) indexBoolean = true;
-          });
-
-          if(d.NodeType ==='search') {
-            if( indexBoolean) {
-              nextIndex ++;
-            } else {
-            nextIndex = userNodesIndexes.length;
-            }
-          } else {
-            const index = userNodesIndexes.indexOf(parseInt(d.indexValue.substring(5)));
-            userNodesIndexes.splice(index, 1);
-            for(let i = 0; i < userNodesIndexes.length; i++) {
-              if (userNodesIndexes[i] != i){
-                nextIndex = i - 1;
-                break;
-              }
-            }
-
+          if(d.NodeType ==="user") {
+            console.log("hit2?");
+            userNodes.forEach((house, i) => {
+              house.indexValue = i;
+            });
+            destroyAllBoxes();
+            createBoxes();
           }
 
 
+            // const index = userNodesIndexes.indexOf(parseInt(d.indexValue.substring(5)));
+            // userNodesIndexes.splice(index, 1);
+            // for(let i = 0; i < userNodesIndexes.length; i++) {
+            //   if (userNodesIndexes[i] != i){
+            //     nextIndex = i - 1;
+            //     break;
+            //   }
+            // }
 
-
-          console.log(nextIndex);
+          // console.log(nextIndex);
 
         }
 
@@ -207,7 +205,7 @@ function bubbles() {
             } else {
               scope.removeProperty({ item: d });
               d.centerPoint.x = w + 300;
-              destroyBoxes(d.indexValue);
+              // destroyBoxes(d.indexValue);
               findNextIndex(d);
             }
             moveBubbles();
@@ -237,8 +235,13 @@ function bubbles() {
           svg.select('#' + indexValue).remove();
         }
 
+        function destroyAllBoxes() {
+          svg.selectAll('svg').remove();
+        }
+
         function createBoxes() {
           userNodes.forEach((house, i) => {
+            console.log(house, i);
 
             const g = svg.append('svg')
             .attr("x", w - 260)
