@@ -103,12 +103,6 @@ function bubbles() {
             house.value = house.value.toString();
           });
 
-          // force = d3.layout.force()
-          //   .nodes(userNodes)
-          //   .size([w, h])
-          //   .charge( d => (- d.r * d.r * 1.25))
-          //   .gravity(0.01)
-          //   .friction(0.55);
           nextIndex = userNodes.length - 1;
           generate(userNodes, 'user');
         }
@@ -172,34 +166,12 @@ function bubbles() {
 
 
         function updateDeleteIndex(d) {
-
           destroyAllBoxes();
           userNodes.splice(parseInt(d.indexValue.substring(5)), 1);
           userNodes.forEach((house, i) => {
             house.indexValue = 'index' + i;
           });
           createBoxes();
-
-          //
-          // userNodesIndexes.indexOf(parseInt(d.indexValue.substring(5)));
-          // userNodesIndexes.splice(index, 1);
-          // for(let i = 0; i < userNodesIndexes.length; i++) {
-          //   if (userNodesIndexes[i] != i){
-          //     nextIndex = i - 1;
-          //     break;
-          //   }
-          // }
-          //
-          // if(d.NodeType ==="user") {
-          //   console.log("hit2?");
-          //   userNodes.forEach((house, i) => {
-          //     house.indexValue = i;
-          //   });
-          //   destroyAllBoxes();
-          //   createBoxes();
-          // }
-
-
         }
 
         // const index = userNodesIndexes.indexOf(parseInt(d.indexValue.substring(5)));
@@ -225,7 +197,9 @@ function bubbles() {
           .attr('opacity', '0.7')
           .attr('fill', d => (fillColor(d.value)))
           .attr('r', d => (d.r))
+          .attr('id', d => ('circle' + d.Id))
           .on('click', function (d) {
+            console.log('d', d);
             if ( d.NodeType === "search") {
               scope.addProperty({ item: d });
               d.centerPoint = { x: w * 0.75, y: h * 0.5};
@@ -237,6 +211,15 @@ function bubbles() {
               updateDeleteIndex(d);
             }
             moveBubbles();
+
+
+            svg.select('circle#circle' + d.Id)
+              .transition()
+              .duration(1000)
+              .attr('r', function(d){
+                return 15;
+              });
+
           });
 
 
@@ -249,7 +232,7 @@ function bubbles() {
         // }
 
         function destroyAllBoxes() {
-          svg.selectAll('svg').remove();
+          svg.selectAll('svg.rectangle').remove();
         }
 
         function createBoxes() {
@@ -282,20 +265,23 @@ function bubbles() {
             .text(house.Address)
             .attr("x", 10)
             .attr("y", 20)
-            .attr("font-size", w * 0.01);
-
-            g.append('text')
-            .text('£' + parseInt(house.value).toLocaleString())
-            .attr("x", 140)
-            .attr("y", 40)
-            .attr("fill", 'dodgerblue')
-            .attr("font-size", w * 0.01);
+            // .attr("font-size", w * 0.01);
+            .attr("font-size", 11);
 
             g.append('text')
             .text('BEDS: ' + house.Bedrooms +' BATHS: ' + house.Bathrooms)
             .attr("x", 10)
             .attr("y", 40)
-            .attr("font-size", w * 0.01);
+            .attr("font-size", 11);
+
+            g.append('text')
+            .text('£' + parseInt(house.value).toLocaleString())
+            .attr("x", 240)
+            .attr("y", 40)
+            .attr("fill", 'dodgerblue')
+            .attr("font-size", 11)
+            .style("text-anchor","end");
+            // .attr("alignment-baseline", middle);
 
             house.centerPoint = { x: w - 300 , y: 10 + (2 * (w * 0.012)) + (i*(boxHeight*1.22)) };
           });
@@ -343,6 +329,47 @@ function bubbles() {
         // .attr("height", 200);
 
 
+        function showTitles(unique, titles) {
+
+          svg.selectAll('svg.title').remove();
+
+          unique.forEach((title, i) => {
+            let filteredNodes = nodes.filter(( house, x ) => {
+              if (titles === 'Bedrooms' && house.Bedrooms === title) return house;
+              if (titles === 'Bathrooms' && house.Bathrooms === title) return house;
+            });
+
+            const topHouse = filteredNodes.reduce((topHouse, house) => {
+              if( house.y < topHouse.y ) return house;
+              else return topHouse;
+            }, { y: 10000 });
+
+
+            let titleCenterPoint = { x:null, y: null};
+            let n = i + 1;
+            if (n <= 3 ) titleCenterPoint = { x: w * n * 0.2, y: h * 0.33 };
+            if (n >= 4 ) titleCenterPoint = { x: w * (n-3) * 0.2, y: h * 0.66 };
+
+            const g = svg.append('svg')
+            .attr("class", 'title')
+            .attr("x", topHouse.x - 50)
+            .attr("y", topHouse.y - 50)
+            .attr("width", 100)
+            .attr("height", 30 );
+
+            g.append('text')
+            .text(unique[i] + ' ' + titles)
+            .attr("x", 50)
+            .attr("y", 15)
+            .attr('fill', 'black')
+            .style("text-transform", 'uppercase')
+            .style("text-anchor","middle")
+            .attr("font-size", 11);
+          });
+        }
+
+
+
         function moveBubbles() {
           force
             .on('tick', ((e) => { node.each(moveToTarget(e.alpha))
@@ -374,10 +401,10 @@ function bubbles() {
             }
 
             if (unique.length <= 6) {
+
+              setTimeout(() => showTitles(unique, buttonId), 1200);
               nodes.forEach(function (n, i) {
-                // console.log(eval('n.' + buttonId));
                 const num = unique.indexOf(eval('n.' + buttonId)) + 1;
-                // console.log(num);
                 if (num <= 3 ) n.centerPoint = { x: w * num * 0.2, y: h * 0.33 };
                 if (num >= 4 ) n.centerPoint = { x: w * (num-3) * 0.2, y: h * 0.66 };
               });
@@ -406,7 +433,6 @@ function bubbles() {
             var buttonId = button.attr('id');
             if (buttonId === 'All') {
               const target = { x: w / 2, y: h / 2 };
-              // const target = { x: w * 0.4, y: h / 2 };
               defineTarget(target);
             } else {
               defineMultipleTargets(buttonId);
