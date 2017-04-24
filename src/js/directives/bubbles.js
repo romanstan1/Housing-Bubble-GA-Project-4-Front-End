@@ -94,6 +94,15 @@ function bubbles() {
                 indexValue: 'index' + i
             };
           });
+
+          userNodes = userNodes.sort((a, b) => {
+            return (parseInt(a.value) < parseInt(b.value));
+          });
+
+          userNodes.forEach((house) => {
+            house.value = house.value.toString();
+          });
+
           // force = d3.layout.force()
           //   .nodes(userNodes)
           //   .size([w, h])
@@ -147,15 +156,25 @@ function bubbles() {
 
 
 
+        function updateAddIndex(d) {
+
+          destroyAllBoxes();
+          userNodes.push(d);
+          userNodes = userNodes.sort((a, b) => {
+            return (parseInt(a.value) < parseInt(b.value));
+          });
+          userNodes.forEach((house, i) => {
+            house.value = house.value.toString();
+            house.indexValue = 'index' + i;
+          });
+          createBoxes();
+        }
 
 
+        function updateDeleteIndex(d) {
 
-        function findNextIndex(d) {
-
-          destroyAllBoxes(d.indexValue);
+          destroyAllBoxes();
           userNodes.splice(parseInt(d.indexValue.substring(5)), 1);
-          userNodes.splice(d.index, 1);
-
           userNodes.forEach((house, i) => {
             house.indexValue = 'index' + i;
           });
@@ -210,18 +229,14 @@ function bubbles() {
             if ( d.NodeType === "search") {
               scope.addProperty({ item: d });
               d.centerPoint = { x: w * 0.75, y: h * 0.5};
-              // findNextIndex(d);
               d.NodeType = "user";
-              d.centerPoint = { x: w - 300 , y: 10 + (2 * (w * 0.012)) + (nextIndex*(boxHeight*1.22)) };
+              updateAddIndex(d);
             } else {
               scope.removeProperty({ item: d });
               d.centerPoint.x = w + 300;
-              console.log(d);
-              // destroyBoxes(d.indexValue);
-              findNextIndex(d);
+              updateDeleteIndex(d);
             }
             moveBubbles();
-            // createBoxes();
           });
 
 
@@ -229,9 +244,9 @@ function bubbles() {
 
         const boxHeight = (h * 0.08);
 
-        function destroyBoxes(indexValue) {
-          svg.select('#' + indexValue).remove();
-        }
+        // function destroyBoxes(indexValue) {
+        //   svg.select('#' + indexValue).remove();
+        // }
 
         function destroyAllBoxes() {
           svg.selectAll('svg').remove();
