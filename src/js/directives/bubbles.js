@@ -134,23 +134,18 @@ function bubbles() {
           .nodes(nodes)
           .size([w, h])
           .charge( (d) => {
-            // console.log(d);
             if (d.NodeType === 'search') {
               return (- d.r * d.r * 1.45);
-              // return 0;
             } else {
               return 0;
             }
           })
-          // .charge( d => (- d.r * d.r * 0))
           .gravity(0)
           .friction(0.45);
-          // .friction(0);
 
         if(userNodes>0){
           let userNodesIndexes = userNodes.map((house, i) => {
             return parseInt(house.indexValue.substring(5));
-            // return i;
           });
           console.log(userNodesIndexes);
         }
@@ -212,23 +207,9 @@ function bubbles() {
             // createBoxes();
           });
 
-        // svg.selectAll('circle')
-        // d3.select('body')
-        // svg.selectAll('circle')
-        //   // .append('svg:div')
-        //   .insert('div', '#circle + *')
-        //   // .attr('id', 'second');
-        //   .attr('class', 'tooltip')
-        //   .text('hello');
-          // .append("svg")
-          // .attr("width", 200)
-          // .attr("height", 200);
 
-        // svg.selectAll('circle')
-        // d3.selectAll('circle')
-        //   .append("svg")
-        //   .attr("width", 200)
-        //   .attr("height", 200);
+
+  
         const boxHeight = (h * 0.08);
 
         function destroyBoxes(indexValue) {
