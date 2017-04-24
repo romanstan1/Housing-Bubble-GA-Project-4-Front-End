@@ -20,5 +20,8 @@
     "angular-resource": "^1.6.4",
     "satellizer": "^0.15.5",
     "angular-messages": "^1.6.4"
+  },
+  "resolutions": {
+    "angular": "^1.5.8"
   }
 }
