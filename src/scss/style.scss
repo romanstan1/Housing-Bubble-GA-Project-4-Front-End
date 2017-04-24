@@ -248,17 +248,9 @@ circle {
 }
 
 
-rect.tooltip {
-  // display: none;
-  div {
-    color:black;
+svg.rectangle {
+  cursor: pointer;
+  &:hover {
+    background: red;
   }
-  background: green;
-  // display: block;
-  // margin: 0;
-  // background: red;
-  // width: 100px;
-  // height: 100px;
-  // z-index: 500;
-  // float: right;
 }

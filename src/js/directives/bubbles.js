@@ -260,6 +260,16 @@ function bubbles() {
             .attr("y", 10 + (i* (boxHeight * 1.22)))
             .attr("width", 250)
             .attr("height", boxHeight )
+            .attr("class", 'rectangle')
+            .on('click',function(){
+              window.open(house.Url,'_blank');
+            })
+            .on("mouseover", function(d) {
+              d3.select(this).selectAll('rect').attr("opacity", "0.2");
+            })
+            .on("mouseout", function(d) {
+              d3.select(this).selectAll('rect').attr("opacity", "0.1");
+            })
             .attr("id", 'index' + i);
 
             const rect = g.append('rect')
