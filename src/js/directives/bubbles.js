@@ -175,7 +175,12 @@ function bubbles() {
             house.indexValue = 'index' + i;
           });
           createBoxes();
-          if(nodes[0].NodeType ==='search') chargeCorrection();
+          
+          console.log(nodes[0].NodeType);
+          if(nodes[0].NodeType ==='search') {
+            console.log(nodes[0].NodeType ==='search');
+            chargeCorrection();
+          }
         }
 
         var fillColor = d3.scale.linear()
