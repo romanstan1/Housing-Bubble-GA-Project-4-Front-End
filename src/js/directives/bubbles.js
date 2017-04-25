@@ -21,12 +21,13 @@ function bubbles() {
              h = window.innerHeight - 50,
              damper = 0.6;
 
-      let target = { x: w * 0.5, y: h * 0.5 }; //center
+      let target = { x: w * 0.35, y: h * 0.5 }; //center
       let force = null;
       let userNodes = [];
       let nextIndex = null;
 
       const svg = d3.select(element[0]).append('svg');
+      const indexWeights = [ 13, 10, 8, 5, 1, -1, -5, -8, -10, -13, -16, -19];
 
       svg
         .attr('width', w)
@@ -45,7 +46,7 @@ function bubbles() {
 
           const nodes = scope.nodes.map(function (d) {
             if(scope.userdata) target = { x: w * 0.35, y: h * 0.5 };
-            else target = { x: w * 0.5, y: h * 0.5 };
+            else target = { x: w * 0.35, y: h * 0.5 };
             return {
                 value: d.price,
                 r: scaling(Math.pow((d.price / 3.14), 0.5)),
@@ -174,7 +175,7 @@ function bubbles() {
             house.indexValue = 'index' + i;
           });
           createBoxes();
-          chargeCorrection();
+          if(nodes[0].NodeType ==='search') chargeCorrection();
         }
 
         var fillColor = d3.scale.linear()
@@ -275,7 +276,7 @@ function bubbles() {
 
         if(nodes[0].NodeType === "user" && userNodes ) createBoxes();
 
-        const indexWeights = [ 1, 2, 3, 4, 5, 5, 4, 3, 2, 1 ];
+
 
         if(nodes[0].NodeType === "search" && userNodes ) {
           userNodes.forEach((house, i) => {
@@ -293,6 +294,7 @@ function bubbles() {
           userNodes.forEach((house, i) => {
             // house.centerPoint.x = house.centerPoint.x - (80 + (8 * indexWeights[i]));
             house.centerPoint.x = house.centerPoint.x - (80);
+            house.centerPoint.y = house.centerPoint.y + indexWeights[i];
           });
         }
         // chargeCorrection();
