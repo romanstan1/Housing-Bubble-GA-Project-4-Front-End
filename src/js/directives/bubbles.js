@@ -121,9 +121,9 @@ function bubbles() {
         svg.selectAll('svg.title').remove();
         svg.selectAll('circle').remove();
 
-        if(nodes[0].NodeType === "search" && userNodes ) {
+        if(nodes[0].NodeType === "search" && userNodes.length > 0 ) {
           nodes = nodes.concat(userNodes);
-          // chargeCorrection();
+          chargeCorrection();
         }
 
         function checkTargets() {
@@ -164,6 +164,7 @@ function bubbles() {
             house.indexValue = 'index' + i;
           });
           createBoxes();
+          chargeCorrection();
         }
 
         function updateDeleteIndex(d) {
@@ -173,6 +174,7 @@ function bubbles() {
             house.indexValue = 'index' + i;
           });
           createBoxes();
+          chargeCorrection();
         }
 
         var fillColor = d3.scale.linear()
@@ -287,12 +289,12 @@ function bubbles() {
         function defineUserNodeTargets(house, i) {
           house.centerPoint = { x: w - 300 , y: 10 + (2 * 14) + (i*(boxHeight*1.22)) };
         }
-        // function chargeCorrection() {
-        //   userNodes.forEach((house, i) => {
-        //     console.log(house.centerPoint);
-        //     house.centerPoint.x = house.centerPoint.x - (80 + (8 * indexWeights[i]));
-        //   });
-        // }
+        function chargeCorrection() {
+          userNodes.forEach((house, i) => {
+            // house.centerPoint.x = house.centerPoint.x - (80 + (8 * indexWeights[i]));
+            house.centerPoint.x = house.centerPoint.x - (80);
+          });
+        }
         // chargeCorrection();
 
         // d3.selectAll('rect')
@@ -327,18 +329,13 @@ function bubbles() {
               if (titles === 'Bathrooms' && house.Bathrooms === title && house.NodeType === 'search') return house;
             });
 
-            console.log('filteredNodes', filteredNodes, title);
-
             const topHouse = filteredNodes.reduce((topHouse, house) => {
               if( house.y < topHouse.y ) return house;
               else return topHouse;
             }, { y: 10000 });
 
-
-            let titleCenterPoint = { x:null, y: null};
-            let n = i + 1;
-            if (n <= 3 ) titleCenterPoint = { x: w * n * 0.2, y: h * 0.33 };
-            if (n >= 4 ) titleCenterPoint = { x: w * (n-3) * 0.2, y: h * 0.66 };
+            console.log('filteredNodes:', filteredNodes);
+            console.log('topHouse:', topHouse);
 
             const g = svg.append('svg')
             .attr("class", 'title')
@@ -375,6 +372,7 @@ function bubbles() {
           });
           svg.selectAll('svg.title').remove();
           createBoxes();
+          chargeCorrection();
           moveBubbles();
         }
 
@@ -394,19 +392,20 @@ function bubbles() {
                 n.centerPoint = target;
               });
             } else if (unique.length <= 6) {
+
                 nodes.forEach(function (n, i) {
                   const num = unique.indexOf(eval('n.' + buttonId)) + 1;
-                  if (num <= 3 ) n.centerPoint = { x: w * num * 0.33, y: h * 0.33 };
-                  if (num >= 4 ) n.centerPoint = { x: w * (num-3) * 0.33, y: h * 0.66 };
+                  if (num <= 3 ) n.centerPoint = { x: w * num * 0.25, y: h * 0.33 };
+                  else n.centerPoint = { x: w * (num-3) * 0.25, y: h * 0.66 };
                 });
 
             } else if (unique.length <= 9 ){
               console.log('unique.length', unique.length);
               nodes.forEach(function (n, i) {
                 const num = unique.indexOf(eval('n.' + buttonId)) + 1;
-                if (num <= 3 ) n.centerPoint = { x: w * num * 0.33, y: h * 0.28 };
-                else if (num <= 6 ) n.centerPoint = { x: w * (num-3) * 0.33, y: h * 0.5 };
-                else n.centerPoint = { x: w * (num-6) * 0.33, y: h * 0.72 };
+                if (num <= 3 ) n.centerPoint = { x: w * num * 0.25, y: h * 0.28 };
+                else if (num <= 6 ) n.centerPoint = { x: w * (num-3) * 0.25, y: h * 0.5 };
+                else n.centerPoint = { x: w * (num-6) * 0.25, y: h * 0.72 };
               });
             } else {
               console.log('unique.length', unique.length);
@@ -425,6 +424,7 @@ function bubbles() {
               n.centerPoint = { x: w * 1.1, y: h * 0.5 };
             });
 
+            console.log('unique', unique);
             setTimeout(() => showTitles(unique, buttonId), 800);
 
             destroyAllBoxes();
