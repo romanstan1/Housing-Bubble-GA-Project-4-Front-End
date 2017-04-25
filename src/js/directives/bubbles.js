@@ -114,7 +114,7 @@ function bubbles() {
 
 
 
-
+      let pageRefreshVar = true;
 
 
       function generate(nodes, type) {
@@ -124,7 +124,9 @@ function bubbles() {
 
         if(nodes[0].NodeType === "search" && userNodes.length > 0 ) {
           nodes = nodes.concat(userNodes);
-          chargeCorrection();
+          console.log('hitdis');
+          if(pageRefreshVar) chargeCorrection();
+          pageRefreshVar = false;
         }
 
         function checkTargets() {
@@ -154,6 +156,8 @@ function bubbles() {
           });
         }
 
+        let chargeVar = false;
+
         function updateAddIndex(d) {
           destroyAllBoxes();
           userNodes.push(d);
@@ -175,12 +179,16 @@ function bubbles() {
             house.indexValue = 'index' + i;
           });
           createBoxes();
-          
-          console.log(nodes[0].NodeType);
-          if(nodes[0].NodeType ==='search') {
-            console.log(nodes[0].NodeType ==='search');
+
+          // console.log(nodes[0].NodeType);
+          // if(nodes[0].NodeType ==='search') {
+          //   // console.log(nodes[0].NodeType ==='search');
+          //   chargeCorrection();
+          // }
+          // if(chargeVar) {
+            // console.log(nodes[0].NodeType ==='search');
             chargeCorrection();
-          }
+          // }
         }
 
         var fillColor = d3.scale.linear()
@@ -341,8 +349,7 @@ function bubbles() {
               else return topHouse;
             }, { y: 10000 });
 
-            console.log('filteredNodes:', filteredNodes);
-            console.log('topHouse:', topHouse);
+
 
             const g = svg.append('svg')
             .attr("class", 'title')
@@ -407,7 +414,6 @@ function bubbles() {
                 });
 
             } else if (unique.length <= 9 ){
-              console.log('unique.length', unique.length);
               nodes.forEach(function (n, i) {
                 const num = unique.indexOf(eval('n.' + buttonId)) + 1;
                 if (num <= 3 ) n.centerPoint = { x: w * num * 0.25, y: h * 0.28 };
@@ -415,7 +421,6 @@ function bubbles() {
                 else n.centerPoint = { x: w * (num-6) * 0.25, y: h * 0.72 };
               });
             } else {
-              console.log('unique.length', unique.length);
               nodes.forEach(function (n, i) {
                 const num = unique.indexOf(eval('n.' + buttonId)) + 1;
                 if (num <= 4 ) n.centerPoint = { x: w * num * 0.2, y: h * 0.28 };
@@ -431,7 +436,6 @@ function bubbles() {
               n.centerPoint = { x: w * 1.1, y: h * 0.5 };
             });
 
-            console.log('unique', unique);
             setTimeout(() => showTitles(unique, buttonId), 800);
 
             destroyAllBoxes();
