@@ -19,7 +19,7 @@
           <li ng-if="!main.isAuthenticated()"><a ui-sref="login" ui-sref-active="active">Login</a></li>
           <li ng-if="!main.isAuthenticated()"><a ui-sref="register" ui-sref-active="active">Register</a></li>
           <li ng-click="main.logout()" ng-if="main.isAuthenticated()"><a href="#">Logout</a></li>
-          <li ng-if="main.isAuthenticated()"> <span> {{ main.currentUser.username }} </span></li>
+          <li ng-if="main.isAuthenticated()"> <span class="user"> {{ main.currentUser.username }} </span></li>
         </ul>
       </nav>
     </header>
