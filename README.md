@@ -21,13 +21,31 @@ There is a colour key that pops up when the footer is hovered over.
 
 ### The Build
 
-D3.js, AngularJS, HTML, SCSS, Ruby on Rails, Gulp.js, Git.
+D3.js, AngularJS, HTML, SCSS, Ruby on Rails, Gulp.js, Git, Bower, NPM, PostgreSQL
 
+- The D3.js code is placed inside of an AngularJS directive.
+- The AngularJS $watch function is used to bind the D3.js directive to the house price data retrieved from Zoopla. D3.js then interacts and manipulates the DOM based when this data is updated..
+- The Zoopla API is called initially through an AngularJS service, and then from the Rails back-end via HTTParty.
+- The Zoopla API is called on every state change, to retrieve the data for the houses in the users portfolio. It is also obviously called when a new location is searched.
+- The front-end interacts with the PostgreSQL database through API calls through AngularJS factories to Rails the back-end.
+- In Rails, there is a one-to-many relationship between Users and Houses.
 
 ### To Use this Angular Gulp Setup
 
-If you have forked this code, to get setup, you first need to run:
+If you have cloned this code, to setup this application, you first need to run:
 
 ```sh
 $ bower install && gulp install
+```
+
+If you have cloned the back end code, to get setup, you first need to:
+
+Run a PostgreSQL database.
+
+And then:
+
+```sh
+$ npm install
+$ rails db:create, db:migrate
+$ rails s
 ```
