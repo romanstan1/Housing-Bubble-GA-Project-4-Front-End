@@ -266,7 +266,7 @@ div.toolbar {
     background: ghostwhite;
     cursor: pointer;
     display: block;
-    font-weight: 700;
+    font-weight: 600;
     // opacity: 0.9;
     // border-radius: 0 3px 3px 0;
     overflow: hidden;
@@ -280,6 +280,7 @@ div.toolbar {
     padding-left: 30px;
   }
   span {
+    font-size: 14px;
     height: 36px;
     margin-bottom: 5px;
     // background: red;
