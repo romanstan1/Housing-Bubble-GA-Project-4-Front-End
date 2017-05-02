@@ -9,7 +9,7 @@ Houses are represented as SVG bubbles of different sizes and colours relative to
 
 ![](src/images/housingbubblescreen.png "Screen Shot")
 
-###Functionality:
+### Functionality:
 
 Users can search for any location in England by Street name, Post code, Town, City or Area.
 
