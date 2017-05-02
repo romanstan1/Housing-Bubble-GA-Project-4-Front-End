@@ -1,6 +1,4 @@
-#Housing Bubble
-
-### GA WDI London - Project 4
+### GA WDI London - Project 4, Housing Bubble
 
 Housing Bubble is a property finding application that is built with D3.js, AngularJS and Ruby on Rails.
 
@@ -11,7 +9,7 @@ Houses are represented as SVG bubbles of different sizes and colours relative to
 
 ![](src/images/housingbubblescreen.png "Screen Shot")
 
-#####Functionality:
+###Functionality:
 
 Users can search for any location in England by Street name, Post code, Town, City or Area.
 
