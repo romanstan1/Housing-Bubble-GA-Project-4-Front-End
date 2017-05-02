@@ -27,7 +27,7 @@ function bubbles() {
       let nextIndex = null;
 
       const svg = d3.select(element[0]).append('svg');
-      const indexWeights = [ 13, 10, 8, 5, 1, -1, -5, -8, -10, -13, -16, -19];
+      const indexWeights = [ 15, 12, 10, 7, 3, -3, -7, -10, -12, -15, -18, -22];
 
       svg
         .attr('width', w)
@@ -180,15 +180,9 @@ function bubbles() {
           });
           createBoxes();
 
-          // console.log(nodes[0].NodeType);
-          // if(nodes[0].NodeType ==='search') {
-          //   // console.log(nodes[0].NodeType ==='search');
-          //   chargeCorrection();
-          // }
-          // if(chargeVar) {
-            // console.log(nodes[0].NodeType ==='search');
+          if(nodes[0].NodeType === 'search') {
             chargeCorrection();
-          // }
+          }
         }
 
         var fillColor = d3.scale.linear()
@@ -281,7 +275,6 @@ function bubbles() {
             .attr("fill", 'dodgerblue')
             .attr("font-size", 11)
             .style("text-anchor","end");
-            // .attr("alignment-baseline", middle);
 
             defineUserNodeTargets(house, i);
           });
@@ -349,12 +342,10 @@ function bubbles() {
               else return topHouse;
             }, { y: 10000 });
 
-
-
             const g = svg.append('svg')
             .attr("class", 'title')
             .attr("x", topHouse.x - 50)
-            .attr("y", topHouse.y - 50)
+            .attr("y", topHouse.y - topHouse.r - 30)
             .attr("width", 100)
             .attr("height", 30 );
 

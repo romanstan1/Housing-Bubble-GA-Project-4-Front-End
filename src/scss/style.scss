@@ -73,7 +73,7 @@ header {
           padding:0 15px;
           // margin: 0 5px;
           &:hover {
-            color:#605f77;
+            color:#3960ef;
           }
         }
         span {
@@ -90,34 +90,56 @@ header {
 }
 
 form.auth {
+  padding-top: 25vh;
   background: white;
   // background: url('/images/icon.png') no-repeat;
   // background-size: 80px 60px;
   div {
-    background: ghostwhite;
+    // background: ;
+    // background: red;
     text-align: center;
   //   background: url(img_flwr.gif);
   //  background-size: 80px 60px;
   //  background-repeat: no-repeat;
     label {
+      padding-top: 10px;
+      margin-bottom: 10px;
       font-size: 12px;
+      display: block;
+      text-transform: uppercase;
+      font-weight: 600;
     }
     input {
-      text-indent: 10px;
-      margin-top: 50px;
+      border-radius: 3px;
+      text-indent: 15px;
+      margin-top: 0px;
       font-size: 12px;
-      border: 3px solid grey;
+      width: 30%;
+      min-width: 300px;
+      max-width: 450px;
+      line-height: 28px;
       outline: none;
+      border: 2px solid #dce2ea;
+      background: #dce2ea;
+      &:focus {
+        border: 2px solid #3960ef;
+      }
     }
   }
   button {
+    // font-weight: x;
+    border-radius: 3px;
+    text-transform: uppercase;
     cursor: pointer;
     display: block;
-    margin: 0 auto;
+    margin: 30px auto;
     font-size: 12px;
-    padding: 5px 30px;
+    opacity: 0.7;
+    padding: 8px 30px;
+    background: #3960ef;
+    color: white;
     &:hover{
-      background: tomato;
+      opacity: 0.8;
     }
   }
 }
@@ -129,13 +151,13 @@ form.postcode-search {
   z-index: 2;
   line-height: 35px;
   height: 35px;
-  max-width: 230px;
+  max-width: 220px;
   width: 20%;
   min-width: 180px;
   display: block;
   background: white;
   font-size: 0;
-  margin-left: 40%;
+  margin-left: 52%;
   margin-top: 7px;
   // border: 1px solid grey;
 
@@ -227,37 +249,58 @@ svg {
 }
 
 div.toolbar {
+  // border-radius: 3px;
   position: fixed;
   display: block;
   text-align: left;
-  width: 8px;
-  height: 20px;
-  padding-top: 65px;
+  width: 150px;
+  // height: 35px;
+  margin-top: 9px;
   z-index: 20;
-  a {
-    font-weight: 700;
-    opacity: 1;
-    border-radius: 0 3px 3px 0;
-    // border-right: 4px solid #c9c9c9;
-    overflow: hidden;
-    background: #dce2ea;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    font-size: 0px;
+  margin-left: 30%;
+  overflow: hidden;
+  // background: ghostwhite;
+  transition: display 2s;
+
+  span, a {
+    background: ghostwhite;
+    cursor: pointer;
     display: block;
+    font-weight: 700;
+    // opacity: 0.9;
+    // border-radius: 0 3px 3px 0;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-size: 12px;
     text-decoration: none;
     color: black;
-    padding: 12px 11px;
-    width: 8px;
-    line-height: 25px;
-    font-size: 0px;
-    transition: width 0.1s ease;
-    text-align: right;
+    height: 100%;
+    line-height: 35px;
+    text-align: left;
+    padding-left: 30px;
+  }
+  span {
+    height: 36px;
+    margin-bottom: 5px;
+    // background: red;
+    // background: none;
+  }
+  a {
+    line-height: 50px;
+    opacity: 0.9;
+    display: none;
+    background: #dce2ea;
     &:hover {
-      color: black;
-      width: 100px;
-      font-size: 12px;
+      color: #3960ef;
     }
+  }
+  &:hover a {
+    display: block;
+    // width: 100px;
+    // font-size: 12px;
+  }
+  a.active {
+    color: #3960ef;
   }
 }
 
