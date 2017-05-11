@@ -12,7 +12,6 @@ vm.house = {};
 function getHouses(location) {
   zoopla.getHouses(location)
     .then((res) => {
-      console.log(res);
       vm.nodes = res.data.listing;
     });
 }

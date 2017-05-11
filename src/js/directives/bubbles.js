@@ -28,6 +28,8 @@ function bubbles() {
 
       const svg = d3.select(element[0]).append('svg');
       const indexWeights = [ 15, 12, 10, 7, 3, -3, -7, -10, -12, -15, -18, -22];
+      let chargeBoolean = false;
+      let userSearchBoolean = false;
 
       svg
         .attr('width', w)
@@ -35,7 +37,7 @@ function bubbles() {
 
       scope.$watch('nodes', () => {
         if(scope.nodes.length > 0) {
-
+          userSearchBoolean = true;
           const total = scope.nodes.reduce((value, d) => {
             return value + parseFloat(d.price);
           }, 0);
@@ -48,22 +50,22 @@ function bubbles() {
             if(scope.userdata) target = { x: w * 0.35, y: h * 0.5 };
             else target = { x: w * 0.35, y: h * 0.5 };
             return {
-                value: d.price,
-                r: scaling(Math.pow((d.price / 3.14), 0.5)),
-                PropertyType: d.property_type,
-                Bedrooms: d.num_bedrooms,
-                Bathrooms: d.num_bathrooms,
-                Id: d.listing_id,
-                County: d.county,
-                StreetName: d.street_name,
-                Description: d.description,
-                PriceChange: d.price_change,
-                Address: d.displayable_address,
-                Receptions: d.num_recepts,
-                Url: d.details_url,
-                NodeType: "search",
-                centerPoint: target,
-                indexValue: 'index'
+              value: d.price,
+              r: scaling(Math.pow((d.price / 3.14), 0.5)),
+              PropertyType: d.property_type,
+              Bedrooms: d.num_bedrooms,
+              Bathrooms: d.num_bathrooms,
+              Id: d.listing_id,
+              County: d.county,
+              StreetName: d.street_name,
+              Description: d.description,
+              PriceChange: d.price_change,
+              Address: d.displayable_address,
+              Receptions: d.num_recepts,
+              Url: d.details_url,
+              NodeType: 'search',
+              centerPoint: target,
+              indexValue: 'index'
             };
           });
 
@@ -73,25 +75,26 @@ function bubbles() {
 
       scope.$watch('userdata', () => {
         if(scope.userdata) {
+          userSearchBoolean = false;
           userNodes = scope.userdata.map(function (d, i) {
             return {
-                value: d.price,
-                // r: w * 0.012,
-                r: 14,
-                PropertyType: d.property_type,
-                Bedrooms: d.num_bedrooms,
-                Bathrooms: d.num_bathrooms,
-                Id: d.listing_id,
-                County: d.county,
-                StreetName: d.street_name,
-                Description: d.description,
-                PriceChange: d.price_change,
-                Address: d.displayable_address,
-                Receptions: d.num_recepts,
-                Url: d.details_url,
-                NodeType: "user",
-                centerPoint: { x: w * 0.75 , y: h * 0.5 },
-                indexValue: 'index' + i
+              value: d.price,
+              // r: w * 0.012,
+              r: 14,
+              PropertyType: d.property_type,
+              Bedrooms: d.num_bedrooms,
+              Bathrooms: d.num_bathrooms,
+              Id: d.listing_id,
+              County: d.county,
+              StreetName: d.street_name,
+              Description: d.description,
+              PriceChange: d.price_change,
+              Address: d.displayable_address,
+              Receptions: d.num_recepts,
+              Url: d.details_url,
+              NodeType: 'user',
+              centerPoint: { x: w * 0.75 , y: h * 0.5 },
+              indexValue: 'index' + i
             };
           });
 
@@ -122,17 +125,17 @@ function bubbles() {
         svg.selectAll('svg.title').remove();
         svg.selectAll('circle').remove();
 
-        if(nodes[0].NodeType === "search" && userNodes.length > 0 ) {
+
+        if(nodes[0].NodeType === 'search' && userNodes.length > 0 ) {
           nodes = nodes.concat(userNodes);
-          console.log('hitdis');
           if(pageRefreshVar) chargeCorrection();
           pageRefreshVar = false;
         }
 
-        function checkTargets() {
-          if(userNodes.length === 1) target = { x: w * 0.35, y: h * 0.5 };
-          if (userNodes.length === 0) target = { x: w * 0.5, y: h * 0.5 };
-        }
+        // function checkTargets() {
+        //   if(userNodes.length === 1) target = { x: w * 0.35, y: h * 0.5 };
+        //   if (userNodes.length === 0) target = { x: w * 0.5, y: h * 0.5 };
+        // }
 
         force = d3.layout.force()
           .nodes(nodes)
@@ -156,8 +159,6 @@ function bubbles() {
           });
         }
 
-        let chargeVar = false;
-
         function updateAddIndex(d) {
           destroyAllBoxes();
           userNodes.push(d);
@@ -179,15 +180,13 @@ function bubbles() {
             house.indexValue = 'index' + i;
           });
           createBoxes();
-
-          if(nodes[0].NodeType === 'search') {
-            chargeCorrection();
-          }
+          console.log('userSearchBoolean', userSearchBoolean);
+          if(userSearchBoolean) chargeCorrection();
         }
 
         var fillColor = d3.scale.linear()
           .domain([200000,2000000])
-          .range(["#1ff2ee","#000080"]);
+          .range(['#1ff2ee','#000080']);
 
         const node = svg.selectAll('circle')
           .filter(function(d) { return d.NodeType === type; })
@@ -199,16 +198,20 @@ function bubbles() {
           .attr('r', d => (d.r))
           .attr('id', d => ('circle' + d.Id))
           .on('click', function (d) {
-            if ( d.NodeType === "search") {
+            if ( d.NodeType === 'search') {
               scope.addProperty({ item: d });
               d.centerPoint = { x: w * 0.75, y: h * 0.5};
               d.r = 14;
-              d.NodeType = "user";
+              d.NodeType = 'user';
               updateAddIndex(d);
             } else {
+              console.log(d);
               scope.removeProperty({ item: d });
               d.centerPoint.x = w + 300;
               updateDeleteIndex(d);
+              setTimeout(() => {
+                d3.select(`${'#circle' + d.Id}`).remove();
+              }, 300);
             }
 
             moveBubbles();
@@ -217,7 +220,7 @@ function bubbles() {
             svg.select('circle#circle' + d.Id)
               .transition()
               .duration(2500)
-              .attr('r', function(d){
+              .attr('r', function(){
                 return 14;
               });
 
@@ -233,19 +236,19 @@ function bubbles() {
           userNodes.forEach((house, i) => {
 
             const g = svg.append('svg')
-            .attr("x", w - 260)
-            .attr("y", 10 + (i* (boxHeight * 1.22)))
-            .attr("width", 250)
-            .attr("height", boxHeight )
-            .attr("class", 'rectangle')
+            .attr('x', w - 260)
+            .attr('y', 10 + (i* (boxHeight * 1.22)))
+            .attr('width', 250)
+            .attr('height', boxHeight )
+            .attr('class', 'rectangle')
             .on('click',function(){
               window.open(house.Url,'_blank');
             })
-            .on("mouseover", function(d) {
-              d3.select(this).selectAll('rect').attr("opacity", "0.2");
+            .on('mouseover', function(d) {
+              d3.select(this).selectAll('rect').attr('opacity', '0.2');
             })
-            .on("mouseout", function(d) {
-              d3.select(this).selectAll('rect').attr("opacity", "0.1");
+            .on('mouseout', function(d) {
+              d3.select(this).selectAll('rect').attr('opacity', '0.1');
             })
             .attr("id", 'index' + i);
 
@@ -280,13 +283,12 @@ function bubbles() {
           });
         }
 
-        if(nodes[0].NodeType === "user" && userNodes ) createBoxes();
+        if(nodes[0].NodeType === 'user' && userNodes ) createBoxes();
 
 
 
         if(nodes[0].NodeType === "search" && userNodes ) {
           userNodes.forEach((house, i) => {
-            // console.log(house.centerPoint);
             // house.centerPoint.x = house.centerPoint.x - (15 + (8 * indexWeights[i]));
             // house.centerPoint.y = house.centerPoint.y - ((house.centerPoint.y - (h * 0.5)) * 0.05);
             // { x: w * 0.4, y: h / 2 }
@@ -298,10 +300,10 @@ function bubbles() {
         }
         function chargeCorrection() {
           userNodes.forEach((house, i) => {
-            // house.centerPoint.x = house.centerPoint.x - (80 + (8 * indexWeights[i]));
             house.centerPoint.x = house.centerPoint.x - (80);
             house.centerPoint.y = house.centerPoint.y + indexWeights[i];
           });
+          console.log('charge correction');
         }
         // chargeCorrection();
 
@@ -382,9 +384,30 @@ function bubbles() {
         }
 
         function defineMultipleTargets(buttonId) {
-          if(nodes[0].NodeType === "search") {
 
-            let unique = nodes.map(n => eval('n.' + buttonId));
+          if(userSearchBoolean) {
+
+            let unique = nodes.map(n => {
+              if(n.NodeType === 'search') return eval('n.' + buttonId);
+            });
+
+            // let unique = nodes.map(n => {
+            //   if(n.NodeType === 'search') return eval('n.' + buttonId);
+            // });
+
+            // const topHouse = filteredNodes.reduce((topHouse, house) => {
+            //   if( house.y < topHouse.y ) return house;
+            //   else return topHouse;
+            // }, { y: 10000 });
+
+            console.log(unique);
+
+            nodes.reduce(function(result, element) {
+              result.push(transform(element));
+              return result;
+            }, []);
+
+            console.log(unique);
 
             unique = unique.filter((item, i, ar) => {
               return ar.indexOf(item) === i;
@@ -427,7 +450,7 @@ function bubbles() {
               n.centerPoint = { x: w * 1.1, y: h * 0.5 };
             });
 
-            setTimeout(() => showTitles(unique, buttonId), 800);
+            setTimeout(() => showTitles(unique, buttonId), 600);
 
             destroyAllBoxes();
             moveBubbles();

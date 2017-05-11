@@ -35,7 +35,7 @@ D3.js, AngularJS, HTML, SCSS, Ruby on Rails, Gulp.js, Git, Bower, NPM, PostgreSQ
 If you have cloned this code, to setup this application, you first need to run:
 
 ```sh
-$ bower install && gulp install
+$ bower install && npm install
 ```
 
 If you have cloned the back end code, to get setup, you first need to:
