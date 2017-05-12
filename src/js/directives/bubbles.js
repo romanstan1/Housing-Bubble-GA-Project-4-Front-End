@@ -180,7 +180,6 @@ function bubbles() {
             house.indexValue = 'index' + i;
           });
           createBoxes();
-          console.log('userSearchBoolean', userSearchBoolean);
           if(userSearchBoolean) chargeCorrection();
         }
 
@@ -204,17 +203,17 @@ function bubbles() {
               d.r = 14;
               d.NodeType = 'user';
               updateAddIndex(d);
+              bunchTogetherAndReset(target);
             } else {
-              console.log(d);
               scope.removeProperty({ item: d });
               d.centerPoint.x = w + 300;
               updateDeleteIndex(d);
               setTimeout(() => {
                 d3.select(`${'#circle' + d.Id}`).remove();
               }, 300);
+              moveBubbles();
             }
 
-            moveBubbles();
 
 
             svg.select('circle#circle' + d.Id)
@@ -245,18 +244,17 @@ function bubbles() {
               window.open(house.Url,'_blank');
             })
             .on('mouseover', function(d) {
-              d3.select(this).selectAll('rect').attr('opacity', '0.2');
+              d3.select(this).selectAll('rect').attr('fill', 'rgb(234, 234, 234)');
             })
             .on('mouseout', function(d) {
-              d3.select(this).selectAll('rect').attr('opacity', '0.1');
+              d3.select(this).selectAll('rect').attr('fill', 'rgb(242, 242, 242)');
             })
             .attr("id", 'index' + i);
 
             const rect = g.append('rect')
             .attr("width", 250)
             .attr("height", boxHeight )
-            .attr('fill', 'grey')
-            .attr('opacity', '0.1');
+            .attr('fill', 'rgb(242, 242, 242)');
 
             g.append('text')
             .text(house.Address)
@@ -286,15 +284,6 @@ function bubbles() {
         if(nodes[0].NodeType === 'user' && userNodes ) createBoxes();
 
 
-
-        if(nodes[0].NodeType === "search" && userNodes ) {
-          userNodes.forEach((house, i) => {
-            // house.centerPoint.x = house.centerPoint.x - (15 + (8 * indexWeights[i]));
-            // house.centerPoint.y = house.centerPoint.y - ((house.centerPoint.y - (h * 0.5)) * 0.05);
-            // { x: w * 0.4, y: h / 2 }
-          });
-        }
-
         function defineUserNodeTargets(house, i) {
           house.centerPoint = { x: w - 300 , y: 10 + (2 * 14) + (i*(boxHeight*1.22)) };
         }
@@ -303,7 +292,6 @@ function bubbles() {
             house.centerPoint.x = house.centerPoint.x - (80);
             house.centerPoint.y = house.centerPoint.y + indexWeights[i];
           });
-          console.log('charge correction');
         }
         // chargeCorrection();
 
@@ -387,27 +375,10 @@ function bubbles() {
 
           if(userSearchBoolean) {
 
-            let unique = nodes.map(n => {
-              if(n.NodeType === 'search') return eval('n.' + buttonId);
-            });
-
-            // let unique = nodes.map(n => {
-            //   if(n.NodeType === 'search') return eval('n.' + buttonId);
-            // });
-
-            // const topHouse = filteredNodes.reduce((topHouse, house) => {
-            //   if( house.y < topHouse.y ) return house;
-            //   else return topHouse;
-            // }, { y: 10000 });
-
-            console.log(unique);
-
-            nodes.reduce(function(result, element) {
-              result.push(transform(element));
+            let unique = nodes.reduce((result, n ) => {
+              if(n.NodeType === 'search') result.push(eval('n.' + buttonId));
               return result;
             }, []);
-
-            console.log(unique);
 
             unique = unique.filter((item, i, ar) => {
               return ar.indexOf(item) === i;
@@ -420,13 +391,11 @@ function bubbles() {
                 n.centerPoint = target;
               });
             } else if (unique.length <= 6) {
-
-                nodes.forEach(function (n, i) {
-                  const num = unique.indexOf(eval('n.' + buttonId)) + 1;
-                  if (num <= 3 ) n.centerPoint = { x: w * num * 0.25, y: h * 0.33 };
-                  else n.centerPoint = { x: w * (num-3) * 0.25, y: h * 0.66 };
-                });
-
+              nodes.forEach(function (n, i) {
+                const num = unique.indexOf(eval('n.' + buttonId)) + 1;
+                if (num <= 3 ) n.centerPoint = { x: w * num * 0.25, y: h * 0.33 };
+                else n.centerPoint = { x: w * (num-3) * 0.25, y: h * 0.66 };
+              });
             } else if (unique.length <= 9 ){
               nodes.forEach(function (n, i) {
                 const num = unique.indexOf(eval('n.' + buttonId)) + 1;
@@ -440,8 +409,6 @@ function bubbles() {
                 if (num <= 4 ) n.centerPoint = { x: w * num * 0.2, y: h * 0.28 };
                 else if (num <= 8 ) n.centerPoint = { x: w * (num-4) * 0.2, y: h * 0.5 };
                 else n.centerPoint = { x: w * (num-8) * 0.2, y: h * 0.72 };
-
-                // else n.centerPoint = { x: w * (num-9) * 0.2, y: h * 0.8 };
               });
             }
 
@@ -469,17 +436,17 @@ function bubbles() {
           .on('click', function () {
             d3.selectAll('.button').classed('active', false);
 
-            var button = d3.select(this);
-            button.classed('active', true);
+            const buttonId = d3.select(this)
+              .classed('active', true)
+              .attr('id');
 
-            var buttonId = button.attr('id');
             if (buttonId === 'All') {
               bunchTogetherAndReset(target);
             } else {
               defineMultipleTargets(buttonId);
             }
+          });
 
-        });
       }
     }
   };
