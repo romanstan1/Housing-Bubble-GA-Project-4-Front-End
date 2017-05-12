@@ -11,8 +11,10 @@
   </button>
 </form>
 
+<div ng-if="!main.currentUser && housesIndex.location" class="login-message"> Please Log In</div>
+
 <div id="toolbar" class="toolbar">
-  <span> Sort View </span>
+  <span> View </span>
   <a href="#" id="All" class="button active"> All </a>
   <a href="#" id="Bedrooms" class="button"> Bedrooms </a>
   <a href="#" id="Bathrooms" class="button">Bathrooms</a>

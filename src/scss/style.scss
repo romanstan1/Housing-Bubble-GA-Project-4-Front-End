@@ -163,7 +163,7 @@ form.postcode-search {
   display: block;
   background: white;
   font-size: 0;
-  margin-left: 52%;
+  margin-left: 40%;
   margin-top: 7px;
   // border: 1px solid grey;
 
@@ -232,6 +232,21 @@ font-family: 'Raleway', sans-serif;
 opacity: 0.6;
 }
 
+div.login-message {
+  position: fixed;
+  top: 70px;
+  font-size: 15px;
+  z-index: 100;
+  font-weight: 600;
+  color: #3960ef;
+  max-width: 220px;
+  width: 20%;
+  min-width: 180px;
+  margin-left: 40%;
+  text-transform: uppercase;
+  text-align: center;
+}
+
 .bubbleChart {
   margin: 0 auto;
   position: absolute;
@@ -255,25 +270,31 @@ svg {
 }
 
 div.toolbar {
-  // border-radius: 3px;
+  border-radius: 4px;
   position: fixed;
   display: block;
-  text-align: left;
-  width: 150px;
+  text-align: right;
+  width: 100px;
+  opacity: 0.7;
   // height: 35px;
-  margin-top: 9px;
+  margin-top: 65px;
   z-index: 20;
-  margin-left: 30%;
+  margin-left: 10px;
   overflow: hidden;
   // background: ghostwhite;
   transition: display 2s;
+   &:hover{
+     background: #dce2ea;
+     span {
+       background: red;
+     }
+   }
 
   span, a {
-    background: ghostwhite;
+    // background: ghostwhite;
     cursor: pointer;
     display: block;
     font-weight: 600;
-    // opacity: 0.9;
     // border-radius: 0 3px 3px 0;
     overflow: hidden;
     text-transform: uppercase;
@@ -282,18 +303,17 @@ div.toolbar {
     color: black;
     height: 100%;
     line-height: 35px;
-    text-align: left;
-    padding-left: 30px;
+    // text-align: left;
+    padding-right: 12px;
   }
   span {
     font-size: 14px;
-    height: 36px;
+    line-height: 46px;
     margin-bottom: 5px;
-    // background: red;
-    // background: none;
+    background: #dce2ea;
   }
   a {
-    line-height: 50px;
+    line-height: 40px;
     opacity: 0.9;
     display: none;
     background: #dce2ea;

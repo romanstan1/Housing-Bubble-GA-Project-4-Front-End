@@ -42,6 +42,7 @@ function MainCtrl($rootScope, $state, $auth, zoopla, User) {
     vm.userdata = [];
     $auth.logout();
     $state.go('houses');
+    vm.currentUser = null;
   }
 
   vm.logout = logout;
