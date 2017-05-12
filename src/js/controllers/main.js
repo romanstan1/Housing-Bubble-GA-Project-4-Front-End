@@ -39,9 +39,11 @@ function MainCtrl($rootScope, $state, $auth, zoopla, User) {
   });
 
   function logout() {
+    vm.userdata = [];
     $auth.logout();
     $state.go('houses');
   }
 
   vm.logout = logout;
+
 }

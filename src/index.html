@@ -15,7 +15,7 @@
     <header>
       <nav>
         <ul>
-          <li> <span class="title"> Housing Bubble </span></li>
+          <li> <a class="title" ui-sref="houses"><span> Housing Bubble </span></a></li>
           <li ng-if="!main.isAuthenticated()"><a ui-sref="login" ui-sref-active="active">Login</a></li>
           <li ng-if="!main.isAuthenticated()"><a ui-sref="register" ui-sref-active="active">Register</a></li>
           <li ng-click="main.logout()" ng-if="main.isAuthenticated()"><a href="#">Logout</a></li>
@@ -23,8 +23,6 @@
         </ul>
       </nav>
     </header>
-
-    <!-- <h2> Housing Bubble </h2> -->
 
     <main ui-view>
     </main>

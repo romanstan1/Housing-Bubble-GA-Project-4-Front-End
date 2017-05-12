@@ -60,10 +60,6 @@ header {
           float:left;
           margin-left: 0px;
         }
-        span.title {
-          font-size: 15px;
-          font-weight: 700;
-        }
         a {
           display: block;
           font-size: 14px;
@@ -76,6 +72,16 @@ header {
             color:#3960ef;
           }
         }
+        a.title {
+          span {
+            font-size: 15px;
+            font-weight: 700;
+          }
+          &:hover {
+            color:black;
+          }
+        }
+
         span {
           display: block;
           font-size: 14px;

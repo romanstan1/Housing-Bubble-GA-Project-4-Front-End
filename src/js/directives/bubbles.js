@@ -16,7 +16,6 @@ function bubbles() {
     },
     link: function(scope, element, attrs) {
 
-
       const  w = window.innerWidth,
              h = window.innerHeight - 50,
              damper = 0.6;
@@ -36,6 +35,7 @@ function bubbles() {
         .attr('height', h);
 
       scope.$watch('nodes', () => {
+        console.log(scope.nodes);
         if(scope.nodes.length > 0) {
           userSearchBoolean = true;
           const total = scope.nodes.reduce((value, d) => {
@@ -74,12 +74,12 @@ function bubbles() {
       }, true);
 
       scope.$watch('userdata', () => {
+        if(scope.userdata.length === 0) svg.selectAll('svg.rectangle').remove();
         if(scope.userdata) {
           userSearchBoolean = false;
           userNodes = scope.userdata.map(function (d, i) {
             return {
               value: d.price,
-              // r: w * 0.012,
               r: 14,
               PropertyType: d.property_type,
               Bedrooms: d.num_bedrooms,
@@ -126,7 +126,7 @@ function bubbles() {
         svg.selectAll('circle').remove();
 
 
-        if(nodes[0].NodeType === 'search' && userNodes.length > 0 ) {
+        if(userSearchBoolean && userNodes.length > 0 ) {
           nodes = nodes.concat(userNodes);
           if(pageRefreshVar) chargeCorrection();
           pageRefreshVar = false;
@@ -287,35 +287,13 @@ function bubbles() {
         function defineUserNodeTargets(house, i) {
           house.centerPoint = { x: w - 300 , y: 10 + (2 * 14) + (i*(boxHeight*1.22)) };
         }
+
         function chargeCorrection() {
           userNodes.forEach((house, i) => {
             house.centerPoint.x = house.centerPoint.x - (80);
             house.centerPoint.y = house.centerPoint.y + indexWeights[i];
           });
         }
-        // chargeCorrection();
-
-        // d3.selectAll('rect')
-        //   .insert('div', '#circle + *')
-        //   // .attr('id', 'second');
-        //   .attr('class', 'tooltip')
-        //   .text('hello');
-
-        // nodes.forEach(function (n) {
-        //   n.centerPoint = target;
-        // });
-        //
-        // svg
-        // // .append('svg:div')
-        // .append('rect')
-        // // .attr('r', 30)
-        // .attr('fill', 'red')
-        // .attr("width", 150)
-        // .attr("height", 40);
-        // .attr('class', 'tooltip')
-        // .attr("width", 200)
-        // .attr("height", 200);
-
 
         function showTitles(unique, titles) {
 
