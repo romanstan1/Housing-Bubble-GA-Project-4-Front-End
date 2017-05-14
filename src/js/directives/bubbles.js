@@ -74,13 +74,13 @@ function bubbles() {
 
         const walkthroughArray = [
           'Firstly, log in!',
-          'Search for a location (in the UK only) via name or postcode',
+          'Search for a location in the UK',
           ['Houses are represented as bubbles',
           'Bubbles appear bigger and darker relative to the house value on Zoopla',
           ' ',
           'Hover over the gradient bar at the bottom of page to view the colour key',
-          'Click on bubbles to add them to your user portfolio'],
-          'Click on info links to view the property listing on Zoopla',
+          'Click on bubbles to add them to your User portfolio'],
+          'Click on grey info boxes to view further property information on Zoopla',
           'Click on your portfolio bubbles remove them from your portfolio',
           'Use the "ARRANGE" menu to arrange houses by bedrooms or bathrooms'
         ];
@@ -101,6 +101,12 @@ function bubbles() {
 
         if (Array.isArray(walkthroughArray[stage.a])) {
           walkthroughArray[stage.a].forEach((string, i) => {
+
+            // const rect = g.append('rect')
+            // .attr("width", 250)
+            // .attr("height", boxHeight )
+            // .attr('fill', 'rgb(220, 226, 234)');
+
             textbox.append('tspan')
             .attr("text-anchor", 'middle')
             .attr("alignment-baseline", 'middle')
