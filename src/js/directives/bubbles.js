@@ -439,7 +439,7 @@ function bubbles() {
           });
           svg.selectAll('svg.title').remove();
           createBoxes();
-          chargeCorrection();
+          if (userSearchBoolean) chargeCorrection();
           moveBubbles();
         }
 
