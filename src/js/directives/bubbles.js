@@ -10,6 +10,7 @@ function bubbles() {
     scope: {
       nodes: '=',
       userdata: '=',
+      currentUser: '=',
       addProperty: '&',
       removeProperty: '&'
 
@@ -19,13 +20,54 @@ function bubbles() {
 
       /// walkthrough code first!
       let stage = 0;
+      console.log('stage fire here', stage);
+      let walkthroughBoolean = false;
       d3.select('#walkthrough')
         .on('click', function () {
-          d3.select(this).classed('active', true);
-          walkthough();
+          if(walkthroughBoolean) {
+            d3.select(this).classed('active', false);
+            walkthroughBoolean = false;
+            endWalkthrough();
+          } else {
+            d3.select(this).classed('active', true);
+            walkthroughBoolean = true;
+            walkthrough();
+          }
         });
 
-      function walkthough() {
+      scope.$watch('currentUser', () => {
+        console.log('currentuser', scope.currentUser);
+        if (scope.currentUser && (stage === 0)) stage = 1;
+        console.log('log stage pls', stage);
+      });
+
+      whatever = {
+        aInternal: 10,
+        aListener: function(val) {},
+        set a(val) {
+          this.aInternal = val;
+          this.aListener(val);
+        },
+        get a() {
+          return this.aInternal;
+        },
+        registerListener: function(listener) {
+          this.aListener = listener;
+        }
+      };
+
+      whatever.registerListener(function(val) {
+        console.log("Someone changed the value of x.a to " + val);
+      });
+
+      whatever.a = 42;
+
+
+
+
+      function walkthrough() {
+
+        whatever.a = 22;
 
         const walkthroughArray = [
           'Firstly, log in!',
@@ -43,19 +85,29 @@ function bubbles() {
         .attr('y', 100)
         .attr('width', 500)
         .attr('height', 30 )
+        .attr("text-align", 'center')
         .attr('class', 'walkthrough');
 
         const rect = g.append('rect')
-        .attr("width", 250)
-        .attr("height", 40 )
+        .attr("width", 500)
+        .attr("height", 30 )
         .attr('fill', 'rgb(242, 242, 242)');
 
         g.append('text')
         .text(walkthroughArray[stage])
-        .attr("x", 10)
-        .attr("y", 20)
-        .attr("font-size", 11);
+        .attr("x", 250)
+        .attr("y", 15)
+        .attr("text-anchor", 'middle')
+        .attr("alignment-baseline", 'middle')
+        .attr("font-weight", '600')
+        .attr("font-size", 16);
       }
+
+      function endWalkthrough() {
+        svg.selectAll('.walkthrough').remove();
+
+      }
+
 
 
       const  w = window.innerWidth,
@@ -77,7 +129,6 @@ function bubbles() {
         .attr('height', h);
 
       scope.$watch('nodes', () => {
-        console.log(scope.nodes);
         if(scope.nodes.length > 0) {
           userSearchBoolean = true;
           const total = scope.nodes.reduce((value, d) => {
