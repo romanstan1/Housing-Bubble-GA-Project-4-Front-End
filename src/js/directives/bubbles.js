@@ -311,6 +311,7 @@ function bubbles() {
 
           });
 
+        if(userSearchBoolean) stage.a = 2;
         const boxHeight = (h * 0.08);
 
         function destroyAllBoxes() {

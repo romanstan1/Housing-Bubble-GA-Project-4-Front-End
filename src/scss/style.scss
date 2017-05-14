@@ -94,7 +94,7 @@ header {
             margin-top: 7px;
             padding: 0px 20px;
             padding-top: 2px;
-            color: #6d6d6d;
+            color: #3960ef;
             // color: black;
             font-size: 12px;
           }
@@ -371,7 +371,7 @@ footer {
   bottom: 0;
   left: 0;
   right:0;
-  height: 15px;
+  height: 25px;
   background: #1ff2ee;
   background: -webkit-linear-gradient(left, #21fffa , #000026);
   transition: ease 0.5s;
@@ -382,7 +382,7 @@ footer {
     font-size: inherit;
     display: inline-block;
     position: relative;
-    margin-top: 48px;
+    margin-top: 52px;
     width: 50px;
     line-height: 20px;
     color: white;
@@ -396,22 +396,10 @@ footer {
     height: 1px;
     background: white;
     position: absolute;
-    top: 20px;
+    top: 30px;
     left: 0;
     right: 0;
     opacity: 0.8;
-  }
-  div.tab {
-    position: absolute;
-    background: #dce2ea;
-    width: 70px;
-    height: 15px;
-    top: 0px;
-    display: block;
-    margin-top: -15px;
-    transform: rotate(0deg);
-    border-radius: 3px 3px 0px 0px;
-    margin-left: 10px;
   }
   &:hover {
       font-size: 12px;
@@ -448,9 +436,4 @@ div.mobileWarning {
   div.mobileWarning {
     display: block;
   }
-}
-
-svg.walkthrough {
-
-  background: red;
 }
