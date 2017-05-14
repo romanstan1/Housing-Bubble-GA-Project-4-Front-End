@@ -13,7 +13,9 @@ html {
 body {
   font-family: 'Raleway', sans-serif;
   background: white;
-
+}
+a {
+  cursor: pointer;
 }
 
 main {
@@ -81,7 +83,34 @@ header {
             color:black;
           }
         }
-
+        a.walkthrough {
+          span {
+            text-transform: none;
+            text-transform: uppercase;
+            font-weight: 600;
+            border-radius: 3px;
+            line-height: 33px;
+            background: rgba(220, 226, 234, 1);
+            margin-top: 7px;
+            padding: 0px 20px;
+            padding-top: 2px;
+            color: #6d6d6d;
+            // color: black;
+            font-size: 12px;
+          }
+          &:hover {
+            span {
+              background: #3960ef;
+              color: white;
+            }
+          }
+          &.active {
+            span {
+              background: #3960ef;
+              color: white;
+            }
+          }
+        }
         span {
           display: block;
           font-size: 14px;
@@ -95,18 +124,13 @@ header {
   }
 }
 
+
 form.auth {
   padding-top: 25vh;
   background: white;
-  // background: url('/images/icon.png') no-repeat;
-  // background-size: 80px 60px;
+
   div {
-    // background: ;
-    // background: red;
     text-align: center;
-  //   background: url(img_flwr.gif);
-  //  background-size: 80px 60px;
-  //  background-repeat: no-repeat;
     label {
       padding-top: 10px;
       margin-bottom: 10px;
@@ -163,7 +187,7 @@ form.postcode-search {
   display: block;
   background: white;
   font-size: 0;
-  margin-left: 40%;
+  margin-left: 35%;
   margin-top: 7px;
   // border: 1px solid grey;
 
@@ -180,11 +204,6 @@ form.postcode-search {
       color: black;
     }
     &:focus {
-    // background: white url(http://www.freeiconspng.com/uploads/search-icon-png-18.png) 5% 9px;
-    // background-size: 10px 10px;
-    // background-repeat: no-repeat;
-    // padding-top: 1px;
-    // padding-left: 26px;
     background: white;
       &::-webkit-input-placeholder {
         font-size: 0;
@@ -242,7 +261,7 @@ div.login-message {
   max-width: 220px;
   width: 20%;
   min-width: 180px;
-  margin-left: 40%;
+  margin-left: 35%;
   text-transform: uppercase;
   text-align: center;
 }
@@ -270,31 +289,23 @@ svg {
 }
 
 div.toolbar {
-  border-radius: 4px;
   position: fixed;
   display: block;
-  text-align: right;
-  width: 100px;
-  opacity: 0.7;
+  text-align: center;
+  width: 80px;
+  opacity: 0.9;
   // height: 35px;
-  margin-top: 65px;
+  margin-top: 62px;
   z-index: 20;
   margin-left: 10px;
   overflow: hidden;
   // background: ghostwhite;
-  transition: display 2s;
-   &:hover{
-     background: #dce2ea;
-     span {
-       background: red;
-     }
-   }
 
   span, a {
     // background: ghostwhite;
     cursor: pointer;
     display: block;
-    font-weight: 600;
+    font-weight: 400;
     // border-radius: 0 3px 3px 0;
     overflow: hidden;
     text-transform: uppercase;
@@ -304,21 +315,34 @@ div.toolbar {
     height: 100%;
     line-height: 35px;
     // text-align: left;
-    padding-right: 12px;
+    // padding-right: 12px;
   }
   span {
-    font-size: 14px;
-    line-height: 46px;
-    margin-bottom: 5px;
+    font-size: 12px;
+    line-height: 80px;
+    font-weight: 600;
+    // margin-bottom: 5px;
+    background: #3960ef;
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    color: #3960ef;
+    background: #c1c6cc;
     background: #dce2ea;
   }
   a {
-    line-height: 40px;
+    font-size: 11px;
+    border-radius: 50%;
+    line-height: 80px;
+    margin-bottom: 10px;
     opacity: 0.9;
     display: none;
     background: #dce2ea;
     &:hover {
-      color: #3960ef;
+      background: #3960ef;
+      color: white;
     }
   }
   &:hover a {
@@ -327,7 +351,8 @@ div.toolbar {
     // font-size: 12px;
   }
   a.active {
-    color: #3960ef;
+    background: #3960ef;
+    color: white;
   }
 }
 
@@ -379,9 +404,29 @@ footer {
     right: 0;
     opacity: 0.8;
   }
+  div.tab {
+    position: absolute;
+    background: #dce2ea;
+    width: 70px;
+    height: 15px;
+    top: 0px;
+    display: block;
+    margin-top: -15px;
+    transform: rotate(0deg);
+    border-radius: 3px 3px 0px 0px;
+    margin-left: 10px;
+    animation: flash 1s 2s 10;
+    -webkit-animation:: flash 1s 2s 4;
 
+  }
+
+  @keyframes flash {
+      0% { background: #dce2ea; }
+      50% { background: #3960ef; }
+      100% { background: #dce2ea;}
+  }
   // div:nth-child(1) {
-  //   margin-left: 20%;
+  //   margin-left: 20%;color: #3960ef;
   // }
   // div:nth-child(2) {
   //   margin-left: 15%;
@@ -399,6 +444,6 @@ footer {
   &:hover {
       font-size: 12px;
       color: white;
-      height: 75%;
+      height: 45%;
   }
 }

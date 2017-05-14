@@ -16,6 +16,48 @@ function bubbles() {
     },
     link: function(scope, element, attrs) {
 
+
+      /// walkthrough code first!
+      let stage = 0;
+      d3.select('#walkthrough')
+        .on('click', function () {
+          d3.select(this).classed('active', true);
+          walkthough();
+        });
+
+      function walkthough() {
+
+        const walkthroughArray = [
+          'Firstly, log in!',
+          'Search for a location (in the UK only) via name or postcode',
+          'Houses appear bigger and darker relative on their sale value on Zoopla',
+          'Hover over footer to view the color key',
+          'Click on bubbles to add them to your user portfolio',
+          'Click on info links to view the property listing on Zoopla',
+          'Click on your portfolio bubbles remove them from your portfolio',
+          'Use the "View" menu to arrange houses by bedrooms or bathrooms'
+        ];
+
+        const g = svg.append('svg')
+        .attr('x', (w * 0.5)-250)
+        .attr('y', 100)
+        .attr('width', 500)
+        .attr('height', 30 )
+        .attr('class', 'walkthrough');
+
+        const rect = g.append('rect')
+        .attr("width", 250)
+        .attr("height", 40 )
+        .attr('fill', 'rgb(242, 242, 242)');
+
+        g.append('text')
+        .text(walkthroughArray[stage])
+        .attr("x", 10)
+        .attr("y", 20)
+        .attr("font-size", 11);
+      }
+
+
       const  w = window.innerWidth,
              h = window.innerHeight - 50,
              damper = 0.6;
@@ -113,10 +155,6 @@ function bubbles() {
 
 
 
-
-
-
-
       let pageRefreshVar = true;
 
 
@@ -132,11 +170,6 @@ function bubbles() {
           pageRefreshVar = false;
         }
 
-        // function checkTargets() {
-        //   if(userNodes.length === 1) target = { x: w * 0.35, y: h * 0.5 };
-        //   if (userNodes.length === 0) target = { x: w * 0.5, y: h * 0.5 };
-        // }
-
         force = d3.layout.force()
           .nodes(nodes)
           .size([w, h])
@@ -149,8 +182,6 @@ function bubbles() {
           })
           .gravity(0)
           .friction(0.45);
-
-
 
 
         if(userNodes>0){
