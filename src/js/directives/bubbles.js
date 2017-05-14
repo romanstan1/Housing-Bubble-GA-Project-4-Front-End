@@ -19,29 +19,7 @@ function bubbles() {
 
 
       /// walkthrough code first!
-      let stage = 0;
-      console.log('stage fire here', stage);
-      let walkthroughBoolean = false;
-      d3.select('#walkthrough')
-        .on('click', function () {
-          if(walkthroughBoolean) {
-            d3.select(this).classed('active', false);
-            walkthroughBoolean = false;
-            endWalkthrough();
-          } else {
-            d3.select(this).classed('active', true);
-            walkthroughBoolean = true;
-            walkthrough();
-          }
-        });
-
-      scope.$watch('currentUser', () => {
-        console.log('currentuser', scope.currentUser);
-        if (scope.currentUser && (stage === 0)) stage = 1;
-        console.log('log stage pls', stage);
-      });
-
-      whatever = {
+      let stage = {
         aInternal: 10,
         aListener: function(val) {},
         set a(val) {
@@ -56,18 +34,33 @@ function bubbles() {
         }
       };
 
-      whatever.registerListener(function(val) {
+      stage.registerListener(function(val) {
         console.log("Someone changed the value of x.a to " + val);
       });
 
-      whatever.a = 42;
+      stage.a = 0;
 
+      let walkthroughBoolean = false;
 
+      d3.select('#walkthrough')
+        .on('click', function () {
+          if(walkthroughBoolean) {
+            d3.select(this).classed('active', false);
+            walkthroughBoolean = false;
+            endWalkthrough();
+          } else {
+            d3.select(this).classed('active', true);
+            walkthroughBoolean = true;
+            walkthrough();
+          }
+        });
 
+      scope.$watch('currentUser', () => {
+        if (scope.currentUser) stage.a = 1;
+        else stage.a = 0;
+      });
 
       function walkthrough() {
-
-        whatever.a = 22;
 
         const walkthroughArray = [
           'Firstly, log in!',
@@ -94,7 +87,7 @@ function bubbles() {
         .attr('fill', 'rgb(242, 242, 242)');
 
         g.append('text')
-        .text(walkthroughArray[stage])
+        .text(walkthroughArray[stage.a])
         .attr("x", 250)
         .attr("y", 15)
         .attr("text-anchor", 'middle')
@@ -326,17 +319,17 @@ function bubbles() {
               window.open(house.Url,'_blank');
             })
             .on('mouseover', function(d) {
-              d3.select(this).selectAll('rect').attr('fill', 'rgb(234, 234, 234)');
+              d3.select(this).selectAll('rect').attr('fill', 'rgb(176, 183, 193)');
             })
             .on('mouseout', function(d) {
-              d3.select(this).selectAll('rect').attr('fill', 'rgb(242, 242, 242)');
+              d3.select(this).selectAll('rect').attr('fill', 'rgb(220, 226, 234)');
             })
             .attr("id", 'index' + i);
 
             const rect = g.append('rect')
             .attr("width", 250)
             .attr("height", boxHeight )
-            .attr('fill', 'rgb(242, 242, 242)');
+            .attr('fill', 'rgb(220, 226, 234)');
 
             g.append('text')
             .text(house.Address)
