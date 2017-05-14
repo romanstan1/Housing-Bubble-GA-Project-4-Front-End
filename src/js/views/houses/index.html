@@ -13,20 +13,11 @@
 
 <div ng-if="!main.currentUser && housesIndex.location" class="login-message"> Please Log In</div>
 
-
 <div id="toolbar" class="toolbar">
   <span> Arrange </span>
   <a href="#" id="All" class="button active"> All </a>
   <a href="#" id="Bedrooms" class="button"> Bedrooms </a>
   <a href="#" id="Bathrooms" class="button">Bathrooms</a>
 </div>
-
-<!-- <div class="fixed">
-  <a href="#" class="button" ng-click="housesIndex.click()"> ClickDis</a>
-</div> -->
-
-<!-- <div class="fixed">
-  {{ housesIndex.userdata }}clickdis="housesIndex.clickdis"
-</div> -->
 
 <bubbles id="thisone" class="bubbleChart" nodes="housesIndex.nodes" userdata="main.userdata" current-user="main.currentUser" add-property="housesIndex.addProperty(item)" remove-property="housesIndex.removeProperty(item)"></bubbles>

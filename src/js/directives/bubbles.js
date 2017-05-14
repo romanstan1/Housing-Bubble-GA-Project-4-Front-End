@@ -3,6 +3,9 @@ angular
   .directive('bubbles', bubbles);
 
 bubbles.$inject = [];
+
+let walkthroughBoolean = false;
+
 function bubbles() {
 
   return {
@@ -17,6 +20,14 @@ function bubbles() {
     },
     link: function(scope, element, attrs) {
 
+      const  w = window.innerWidth,
+             h = window.innerHeight - 50,
+             damper = 0.6;
+
+      const svg = d3.select(element[0]).append('svg');
+        svg
+          .attr('width', w)
+          .attr('height', h);
 
       /// walkthrough code first!
       let stage = {
@@ -35,18 +46,15 @@ function bubbles() {
       };
 
       stage.registerListener(function(val) {
-        console.log("Someone changed the value of x.a to " + val);
+        if(walkthroughBoolean) walkthrough();
       });
-
-      stage.a = 0;
-
-      let walkthroughBoolean = false;
 
       d3.select('#walkthrough')
         .on('click', function () {
           if(walkthroughBoolean) {
             d3.select(this).classed('active', false);
             walkthroughBoolean = false;
+            stage.a = 1;
             endWalkthrough();
           } else {
             d3.select(this).classed('active', true);
@@ -62,68 +70,71 @@ function bubbles() {
 
       function walkthrough() {
 
+        svg.selectAll('.walkthrough').remove();
+
         const walkthroughArray = [
           'Firstly, log in!',
           'Search for a location (in the UK only) via name or postcode',
-          'Houses appear bigger and darker relative on their sale value on Zoopla',
-          'Hover over footer to view the color key',
-          'Click on bubbles to add them to your user portfolio',
+          ['Houses are represented as bubbles',
+          'Bubbles appear bigger and darker relative to the house value on Zoopla',
+          ' ',
+          'Hover over the gradient bar at the bottom of page to view the colour key',
+          'Click on bubbles to add them to your user portfolio'],
           'Click on info links to view the property listing on Zoopla',
           'Click on your portfolio bubbles remove them from your portfolio',
-          'Use the "View" menu to arrange houses by bedrooms or bathrooms'
+          'Use the "ARRANGE" menu to arrange houses by bedrooms or bathrooms'
         ];
 
         const g = svg.append('svg')
-        .attr('x', (w * 0.5)-250)
-        .attr('y', 100)
-        .attr('width', 500)
-        .attr('height', 30 )
+        .attr('x', (w * 0.5)-300)
+        .attr('y', 30)
+        .attr('width', 600)
+        .attr('height', 150 )
         .attr("text-align", 'center')
         .attr('class', 'walkthrough');
 
-        const rect = g.append('rect')
-        .attr("width", 500)
-        .attr("height", 30 )
-        .attr('fill', 'rgb(242, 242, 242)');
-
-        g.append('text')
-        .text(walkthroughArray[stage.a])
-        .attr("x", 250)
-        .attr("y", 15)
-        .attr("text-anchor", 'middle')
-        .attr("alignment-baseline", 'middle')
+        const textbox = g.append('text')
+        .attr("x", 600)
+        .attr("y", 150)
         .attr("font-weight", '600')
         .attr("font-size", 16);
+
+        if (Array.isArray(walkthroughArray[stage.a])) {
+          walkthroughArray[stage.a].forEach((string, i) => {
+            textbox.append('tspan')
+            .attr("text-anchor", 'middle')
+            .attr("alignment-baseline", 'middle')
+            .attr("x", 300)
+            .attr("y", (30*(i))+15)
+            .text(string);
+          });
+        } else {
+          textbox.append('tspan')
+          .attr("text-anchor", 'middle')
+          .attr("alignment-baseline", 'middle')
+          .attr("x", 300)
+          .attr("y", 15)
+          .text(walkthroughArray[stage.a]);
+        }
       }
 
       function endWalkthrough() {
         svg.selectAll('.walkthrough').remove();
-
       }
-
-
-
-      const  w = window.innerWidth,
-             h = window.innerHeight - 50,
-             damper = 0.6;
 
       let target = { x: w * 0.35, y: h * 0.5 }; //center
       let force = null;
       let userNodes = [];
       let nextIndex = null;
 
-      const svg = d3.select(element[0]).append('svg');
       const indexWeights = [ 15, 12, 10, 7, 3, -3, -7, -10, -12, -15, -18, -22];
       let chargeBoolean = false;
       let userSearchBoolean = false;
 
-      svg
-        .attr('width', w)
-        .attr('height', h);
-
       scope.$watch('nodes', () => {
         if(scope.nodes.length > 0) {
           userSearchBoolean = true;
+          stage.a = 2;
           const total = scope.nodes.reduce((value, d) => {
             return value + parseFloat(d.price);
           }, 0);
@@ -246,6 +257,7 @@ function bubbles() {
           });
           createBoxes();
           chargeCorrection();
+          stage.a = 3;
         }
 
         function updateDeleteIndex(d) {
@@ -256,6 +268,7 @@ function bubbles() {
           });
           createBoxes();
           if(userSearchBoolean) chargeCorrection();
+          stage.a = 5;
         }
 
         var fillColor = d3.scale.linear()
@@ -289,8 +302,6 @@ function bubbles() {
               moveBubbles();
             }
 
-
-
             svg.select('circle#circle' + d.Id)
               .transition()
               .duration(2500)
@@ -316,6 +327,7 @@ function bubbles() {
             .attr('height', boxHeight )
             .attr('class', 'rectangle')
             .on('click',function(){
+              stage.a = 4;
               window.open(house.Url,'_blank');
             })
             .on('mouseover', function(d) {
@@ -496,6 +508,10 @@ function bubbles() {
             if (buttonId === 'All') {
               bunchTogetherAndReset(target);
             } else {
+              stage.a = 1;
+              walkthroughBoolean = false;
+              endWalkthrough();
+              d3.select('#walkthrough').classed('active', false);
               defineMultipleTargets(buttonId);
             }
           });
