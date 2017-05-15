@@ -59,6 +59,7 @@ function bubbles() {
           } else {
             d3.select(this).classed('active', true);
             walkthroughBoolean = true;
+            stage.a = 1;
             walkthrough();
           }
         });

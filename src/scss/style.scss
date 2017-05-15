@@ -58,9 +58,16 @@ header {
         line-height: 50px;
         float: right;
         color: black;
-        &:first-child{
+        &:nth-child(-n+2) {
           float:left;
           margin-left: 0px;
+          span {
+            padding-left: 0px;
+          }
+        }
+        img {
+          width: 50px;
+          margin-top: -2px;
         }
         a {
           display: block;
